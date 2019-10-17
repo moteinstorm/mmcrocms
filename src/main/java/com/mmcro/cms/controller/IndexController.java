@@ -16,6 +16,7 @@ import com.mmcro.cms.entity.Channel;
 import com.mmcro.cms.service.ArticleService;
 import com.mmcro.cms.service.CatService;
 import com.mmcro.cms.service.ChannelService;
+import com.mmcro.cms.web.PageUtils;
 
 /**
  * 
@@ -34,6 +35,14 @@ public class IndexController {
 	@Autowired
 	ArticleService articleService;
 
+	/**
+	 * 
+	 * @param request
+	 * @param chnId  栏目id
+	 * @param catId  分类id
+	 * @param page  文章的页码
+	 * @return
+	 */
 	@RequestMapping("index")
 	public String index(HttpServletRequest request,
 			@RequestParam(defaultValue="0") Integer chnId,
@@ -47,12 +56,22 @@ public class IndexController {
 			//获取该栏目下的所有分类
 			List<Cat> catygories = catService.getListByChnlId(chnId); 
 			request.setAttribute("catygories", catygories);
+			//获取该栏目下的文章
 			PageInfo<Article>  articleList = articleService.list(chnId,catId,page);
 			request.setAttribute("articles", articleList);
+			PageUtils.page(request, "/index?chnId="+chnId+"&catId=" + catId, 1, articleList.getList(),
+					(long)articleList.getSize(), articleList.getPageNum());
+			//request.setAttribute("pageStr", pageStr);
 			
 		}
 		
+		
+		
 		request.setAttribute("chnls", channels);
+		
+		request.setAttribute("chnId", chnId);
+		request.setAttribute("catId", catId);
+		
 		
 		return "index";
 	}

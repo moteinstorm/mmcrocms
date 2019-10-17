@@ -21,12 +21,11 @@
 
 	<!--栏目下所有 分类 -->
 	<li class="nav-item  list-group-item-success"><a class="nav-link"
-		href="javascript:void(0)" data="/article/listbyCatId?channelId=${channelId}">全部</a></li>
+		href="/index?chnId=${chnId}">全部</a></li>
 	<c:forEach items="${catygories}" var="catygory">
 
 		<li class="nav-item "><a class="nav-link"
-			href="javascript:void(0)"
-			data="/article/listbyCatId?catId=${catygory.id}">${catygory.name }</a></li>
+			href="/index?chnId=${chnId}&catId=${catygory.id}">${catygory.name }</a></li>
 	</c:forEach>
 
 	<!-- 所有栏目下的文章 -->
@@ -51,6 +50,7 @@
 					</div></li>
 				<hr>
 			</c:forEach>
+			<li> ${page}</li>
 		</ul>
 </ul>
 </div>

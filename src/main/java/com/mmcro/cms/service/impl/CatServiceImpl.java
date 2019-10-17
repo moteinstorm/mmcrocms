@@ -20,6 +20,11 @@ public class CatServiceImpl implements CatService{
 	@Autowired
 	CatMapper catMapper;
 
+	/**
+	 * 根据频道去获取下边的分类
+	 * @param id
+	 * @return
+	 */
 	@Override
 	public List<Cat> getListByChnlId(Integer id) {
 		// TODO Auto-generated method stub

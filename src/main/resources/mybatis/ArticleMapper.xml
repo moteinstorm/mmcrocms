@@ -16,7 +16,7 @@
 		 FROM cms_article
 		 WHERE channel_id=#{chnId}
 		 <if test="catId!=0">
-		 	AND category_id={catId}
+		 	AND category_id=#{catId}
 		 </if>       
 	</select>
 	

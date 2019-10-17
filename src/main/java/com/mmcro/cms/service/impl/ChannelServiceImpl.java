@@ -21,6 +21,10 @@ public class ChannelServiceImpl implements ChannelService{
 	@Autowired
 	ChannelMapper channelMapper;
 	
+	/**
+	 *  获取所有的频道（栏目）
+	 * @return
+	 */
 	@Override
 	public List<Channel> getAllChnls() {
 		// TODO Auto-generated method stub

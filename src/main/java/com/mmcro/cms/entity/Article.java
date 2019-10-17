@@ -7,25 +7,47 @@ public class Article implements Serializable {
 	
 	
 	
-	/**
-	 * 
-	 */
+	//版本号id
 	private static final long serialVersionUID = 178742213295392002L;
 	
+	//文章主键id
 	private Integer id;
+	//标题
 	private String title;
+	//文章内容
 	private String content;
+	//图片
 	private String picture;
+	//频道id
 	private Integer channelId;
+	//分类id
 	private Integer categoryId;
+	//用户id
 	private Integer userId;
+	//点击量
 	private Integer hits;
+	//是否热门
 	private Integer hot;
+	//状态
 	private Integer status;
+	
+	
+	
+	
+	
+	
+	
+	//是否已经逻辑删除
 	private Integer deleted;
+	//发表时间
 	private Date created;
+	//修改时间
 	private Date updated;
+	//评论数量
 	private Integer commentCnt;
+	
+	
+	
 	public Integer getId() {
 		return id;
 	}

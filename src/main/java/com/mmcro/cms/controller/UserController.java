@@ -96,9 +96,12 @@ public class UserController {
 			request.setAttribute("errorMsg", "用户名密码错误");
 			return "user/login";
 		}else {
+			//用户信息保存在session当中
 			request.getSession().setAttribute(ConstClass.SESSION_USER_KEY, loginUser);
+			//普通注册用户
 			if(loginUser.getRole()==ConstClass.USER_ROLE_GENERAL) {
 				return "redirect:home";	
+			//管理员用户	
 			}else if(loginUser.getRole()==ConstClass.USER_ROLE_ADMIN){
 				return "redirect:../admin/index";	
 			}else {

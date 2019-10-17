@@ -19,18 +19,21 @@
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 	
-	
+	<!-- 配置登录的拦截器 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
+			<!-- 配置拦截的资源 -->
 			<mvc:mapping path="/**"/>
+			<!-- 配置排除的拦截资源 -->
 			<mvc:exclude-mapping path="/resource/**"/>
+			<mvc:exclude-mapping path="/pic/**"/>
 			<mvc:exclude-mapping path="/index"/>
 			<mvc:exclude-mapping path="/user/login"/>
 			<mvc:exclude-mapping path="/user/register"/>
 			<mvc:exclude-mapping path="/user/checkExist"/>
+			<!-- 拦截器的实现类 -->
 			<bean class="com.mmcro.cms.web.AuthIntercepter"></bean>
 		</mvc:interceptor>
-		
 	</mvc:interceptors>
 	
 	<!-- <bean class=""></bean> -->
