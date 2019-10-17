@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmcro.cms.dao.ArticleMapper">
+	<resultMap type="article" id="articleMapper">
+		<id column="id" property="id" />
+		<result column="channel_id" property="channelId"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="user_id" property="userId"/>
+	</resultMap>
+	<!-- 根据文章的分类和频道获取文章 -->
+	<select id="list" resultMap="articleMapper">
+		SELECT id,title,picture,channel_id,category_id,user_id,
+		        hits,hot,status,created,updated,commentCnt
+		 FROM cms_article
+		 WHERE channel_id=#{chnId}
+		 <if test="catId!=0">
+		 	AND category_id={catId}
+		 </if>       
+	</select>
+	
+</mapper>
+  
+  

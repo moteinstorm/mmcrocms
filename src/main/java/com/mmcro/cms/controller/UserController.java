@@ -25,9 +25,10 @@ public class UserController {
 	
 	
 	
-	@GetMapping("register")  // 只接受get的请求
+	
     //@PostMapping// 只能接受post方法的请求
 	//@RequestMapping(value = "register",method=RequestMethod.GET)
+	@GetMapping("register")  // 只接受get的请求
 	public String register() {
 		return "user/register";
 	}

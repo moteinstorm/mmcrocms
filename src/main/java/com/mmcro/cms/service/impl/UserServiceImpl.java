@@ -20,6 +20,9 @@ public class UserServiceImpl implements UserService {
 	UserMapper userMapper;
 	
 
+	/**
+	 * 注册
+	 */
 	@Override
 	public int register(User user) {
 		// TODO Auto-generated method stub
@@ -27,7 +30,9 @@ public class UserServiceImpl implements UserService {
 		if(existUser!=null) {
 			return -1;// 用户已经存在
 		}
-		user.setPassword(Md5Utils.md5(user.getPassword(),user.getUsername()));
+		//设置密码密文
+		user.setPassword(
+				Md5Utils.md5(user.getPassword(),user.getUsername()));
 		
 		return userMapper.add(user);
 		
@@ -44,6 +49,11 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	/**
+	 * 根据用户名查找用户
+	 * @param username
+	 * @return
+	 */
 	@Override
 	public boolean checkUserExist(String username) {
 		// TODO Auto-generated method stub
