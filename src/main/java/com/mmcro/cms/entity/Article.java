@@ -20,8 +20,24 @@ public class Article implements Serializable {
 	private String picture;
 	//频道id
 	private Integer channelId;
+	private Channel channel;
 	//分类id
 	private Integer categoryId;
+	private Cat cat;
+	
+	
+	public Channel getChannel() {
+		return channel;
+	}
+	public void setChannel(Channel channel) {
+		this.channel = channel;
+	}
+	public Cat getCat() {
+		return cat;
+	}
+	public void setCat(Cat cat) {
+		this.cat = cat;
+	}
 	//用户id
 	private Integer userId;
 	//点击量
@@ -45,6 +61,14 @@ public class Article implements Serializable {
 	private Date updated;
 	//评论数量
 	private Integer commentCnt;
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	private User user;
 	
 	
 	
@@ -135,9 +159,10 @@ public class Article implements Serializable {
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", title=" + title + ", content=" + content + ", picture=" + picture
-				+ ", channelId=" + channelId + ", categoryId=" + categoryId + ", userId=" + userId + ", hits=" + hits
-				+ ", hot=" + hot + ", status=" + status + ", deleted=" + deleted + ", created=" + created + ", updated="
-				+ updated + ", commentCnt=" + commentCnt + "]";
+				+ ", channelId=" + channelId + ", channel=" + channel + ", categoryId=" + categoryId + ", cat=" + cat
+				+ ", userId=" + userId + ", hits=" + hits + ", hot=" + hot + ", status=" + status + ", deleted="
+				+ deleted + ", created=" + created + ", updated=" + updated + ", commentCnt=" + commentCnt + ", user="
+				+ user + "]";
 	}
 	@Override
 	public int hashCode() {

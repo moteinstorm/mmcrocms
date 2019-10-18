@@ -39,6 +39,28 @@ public interface ArticleService {
 	Article findById(Integer articleId);
 
 	int add(Article article);
+
+	/**
+	 *  根据用户id查找文章列表
+	 * @param id 用户id
+	 * @param page
+	 * @return 
+	 */
+	PageInfo<Article> listArticleByUserId(Integer id, Integer page);
+
+	/**
+	 * 删除文章
+	 * @param id  文章id
+	 * @return
+	 */
+	int remove(Integer id);
+
+	/**
+	 *  修改文章
+	 * @param article
+	 * @return
+	 */
+	int update(Article article);
 	
 
 }

@@ -15,5 +15,15 @@ public interface ChannelMapper {
 	 */
 	@Select("SELECT * FROM cms_channel ORDER BY id")
 	List<Channel> listAll();
+	
+	/**
+	 *  根据id获取对应的频道
+	 * @param id
+	 * @return
+	 */
+	/*@Select("SELECT * FROM cms_channel WHERE id = #{value} limit 1")*/
+	Channel findById(Integer id);
+	
+	
 
 }

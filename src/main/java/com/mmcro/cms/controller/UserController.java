@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.comon.ConstClass;
+import com.mmcro.cms.entity.Article;
 import com.mmcro.cms.entity.User;
+import com.mmcro.cms.service.ArticleService;
 import com.mmcro.cms.service.UserService;
+import com.mmcro.cms.web.PageUtils;
 
 @Controller
 @RequestMapping("user")
@@ -22,6 +27,10 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	
+	@Autowired
+	ArticleService articleService;
 	
 	
 	
@@ -121,6 +130,34 @@ public class UserController {
 	@RequestMapping("home")
 	public String home(HttpServletRequest request) {
 		return "my/home";
+	}
+	
+	
+	/**
+	 * 删除用户自己的文章
+	 * @param id 文章id
+	 * @return
+	 */
+	@RequestMapping("delArticle")
+	@ResponseBody
+	public boolean delArticle(Integer id) {
+		return articleService.remove(id)>0;
+	}
+	
+	/**
+	 * 进入个人中心 获取我的文章
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("myarticlelist")
+	public String myarticles(HttpServletRequest request,
+			@RequestParam(defaultValue="1") Integer page) {
+		
+		User loginUser =(User) request.getSession().getAttribute(ConstClass.SESSION_USER_KEY);
+		PageInfo<Article>  pageArticles = articleService.listArticleByUserId(loginUser.getId(),page);
+		PageUtils.page(request, "/user/myarticlelist", 10, pageArticles.getList(), (long)pageArticles.getSize(), pageArticles.getPageNum());
+		request.setAttribute("pageArticles", pageArticles);
+		return "/my/list";
 	}
 	
 	

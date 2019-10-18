@@ -62,6 +62,29 @@ public class ArticleServiceImpl implements ArticleService {
 		// TODO Auto-generated method stub
 		return articleMapper.add(article);
 	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public PageInfo<Article> listArticleByUserId(Integer userId, Integer page) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page, 10);
+		return new PageInfo<Article>(articleMapper.listByUserId(userId));
+	
+	}
+
+	@Override
+	public int remove(Integer id) {
+		// TODO Auto-generated method stub
+		return articleMapper.deleteById(id);
+	}
+
+	@Override
+	public int update(Article article) {
+		// TODO Auto-generated method stub
+		return  articleMapper.update(article);
+	}
 	
 
 }

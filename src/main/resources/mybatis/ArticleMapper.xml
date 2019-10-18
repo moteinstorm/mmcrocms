@@ -8,7 +8,14 @@
 		<result column="channel_id" property="channelId"/>
 		<result column="category_id" property="categoryId"/>
 		<result column="user_id" property="userId"/>
-	</resultMap>
+		<association property="user" column="user_id" 
+		   select="com.mmcro.cms.dao.UserMapper.findUserById" />
+	    <association property="channel" column="channel_id" 
+		   select="com.mmcro.cms.dao.ChannelMapper.findById" />
+		<association property="cat" column="category_id" 
+		   select="com.mmcro.cms.dao.CatMapper.findById" />
+	</resultMap> 
+	
 	<!-- 根据文章的分类和频道获取文章 -->
 	<select id="list" resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
@@ -24,6 +31,7 @@
 		        hits,hot,status,created,updated,commentCnt
 		 FROM cms_article
 		 	WHERE hot>0
+		 	AND deleted=0
 		 	ORDER BY hot DESC,created DESC
 	</select>
 	<!-- 获取最新文章 -->
@@ -31,6 +39,7 @@
 		SELECT id,title,picture,channel_id,category_id,user_id,
 		        hits,hot,status,created,updated,commentCnt
 		 FROM cms_article
+		 	WHERE deleted=0
 		 	ORDER BY created DESC limit #{value}
 	</select>
 	
@@ -39,7 +48,19 @@
 		        hits,hot,status,created,updated,commentCnt
 		 FROM cms_article
 		 WHERE id=#{value}
+		 AND deleted=0
 	</select>
+	
+	<!-- 根据用户id查找文章 -->
+	<select id="listByUserId" resultMap="articleMapper">
+		SELECT id,title,picture,user_id,channel_id,category_id,
+		        hits,hot,status,created,updated,commentCnt
+		 FROM cms_article
+		 WHERE user_id=#{value}
+		   AND deleted=0
+	</select>
+	
+	
 	<insert id="add"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
 		INSERT INTO cms_article(title,content,picture,channel_id,category_id,user_id,hits,hot,status,deleted,created,updated,commentCnt)
 		  values(#{title},#{content},#{picture},#{channelId},#{categoryId},#{userId},0,0,0,0,now(),now(),0)

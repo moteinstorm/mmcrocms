@@ -3,6 +3,7 @@ package com.mmcro.cms.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.entity.Article;
@@ -50,4 +51,29 @@ public interface ArticleMapper {
 	 */
 	int add(Article article);
 
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	List<Article> listByUserId(Integer userId);
+
+	/**
+	 * 根据文章id删除文章
+	 * @param id
+	 * @return
+	 */
+	@Update("UPDATE cms_article SET deleted=1 WHERE id=#{value} ")
+	int deleteById(Integer id);
+	
+	
+	/**
+	 * 修改文章
+	 * @param article
+	 * @return
+	 */
+	@Update("UPDATE cms_article set title=#{title},content=#{content},picture=#{picture},channel_id=#{channelId},"
+			+ "category_id=#{categoryId},updated=now() WHERE id=#{id}")
+	int update(Article article);
+	
 }

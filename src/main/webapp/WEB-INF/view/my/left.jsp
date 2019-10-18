@@ -9,7 +9,7 @@
 	<div class="list-group">
 		<ul class="list-group">
 			<li class="list-group-item  text-center"><a class="channel"
-				href="javascript:void(0)"  data="/article/listMyArticle">我的文章
+				href="javascript:void(0)"  data="/user/myarticlelist">我的文章
 			</a></li>
 			<li class="list-group-item  text-center"><a class="channel"
 				href="javascript:void(0)" data="/article/add"

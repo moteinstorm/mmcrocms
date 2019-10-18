@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.mmcro.cms.entity.Cat;
+import com.mmcro.cms.entity.Channel;
 
 @Mapper
 public interface CatMapper {
@@ -19,5 +20,14 @@ public interface CatMapper {
 			+ " FROM cms_category "
 			+ " WHERE channel_id=#{value}")
 	List<Cat> selectByChnlId(Integer chnlId);
+	
+	
+	/**
+	 *  根据id获取对应的分类
+	 * @param id
+	 * @return
+	 */
+	/*@Select("SELECT * FROM cms_category WHERE id = #{value} limit 1")*/
+	Cat findById(Integer id);
 
 }
