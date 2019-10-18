@@ -283,6 +283,16 @@
 						 <!--项目路径 -->
 						<host>localhost</host>
 					</httpConnector>
+					<contextHandlers>
+						<!-- <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext"> 
+							<contextPath>/pic</contextPath> <baseResource>d:/pic/</baseResource> </contextHandler> -->
+						<jettyWebAppContext>
+							<!-- 虚拟路径 -->
+							<contextPath>/pic</contextPath>
+							<!-- 物理路径 -->
+							<resourceBase>d:/pic/</resourceBase>
+						</jettyWebAppContext>
+					</contextHandlers>
 				 <scanIntervalSeconds>1</scanIntervalSeconds>
 				</configuration>
 			</plugin>

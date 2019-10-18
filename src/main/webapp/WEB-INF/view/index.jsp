@@ -94,10 +94,13 @@
 					<div>${pageStr}</div>
 				</div>
 				
-				<!-- 分类 -->
-				<div id="category">
-					 <%@ include file="./article/category.jsp" %> 
-				</div>
+				<!--  如果是热门，则不需要显示 分类 -->
+				<c:if test="${chnId!=0}">
+					<!-- 分类 -->
+					<div id="category">
+						 <%@ include file="./article/category.jsp" %> 
+					</div>
+				</c:if>
 
 				<br />
 
@@ -112,8 +115,8 @@
 					<div class="card-header">最新文章</div>
 					<div class="card-body">
 						<ol>
-							<c:forEach items="${lasts}" var="article">
-								<li class="text-truncate"><a href="/article/getDetail?aId=${article.id}">${article.title}</a></li>
+							<c:forEach items="${lastList}" var="article">
+								<li class="text-truncate"><a href="/article/show?id=${article.id}">${article.title}</a></li>
 							</c:forEach>
 						</ol>
 					</div>

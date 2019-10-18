@@ -113,6 +113,17 @@ public class UserController {
 	}
 	
 	
+	/**
+	 * 进入个人中心(普通注册用户)
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("home")
+	public String home(HttpServletRequest request) {
+		return "my/home";
+	}
+	
+	
 	
 
 }

@@ -26,6 +26,7 @@
 			<mvc:mapping path="/**"/>
 			<!-- 配置排除的拦截资源 -->
 			<mvc:exclude-mapping path="/resource/**"/>
+			<mvc:exclude-mapping path="/article/show"/>
 			<mvc:exclude-mapping path="/pic/**"/>
 			<mvc:exclude-mapping path="/index"/>
 			<mvc:exclude-mapping path="/user/login"/>
@@ -35,6 +36,12 @@
 			<bean class="com.mmcro.cms.web.AuthIntercepter"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
+	<!-- 上传下载配置 -->	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="maxUploadSize" value="10485760000"></property>
+	</bean>
 	
 	<!-- <bean class=""></bean> -->
 	<!-- 不拦截静态资源 -->

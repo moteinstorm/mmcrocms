@@ -59,11 +59,24 @@ public class IndexController {
 			//获取该栏目下的文章
 			PageInfo<Article>  articleList = articleService.list(chnId,catId,page);
 			request.setAttribute("articles", articleList);
-			PageUtils.page(request, "/index?chnId="+chnId+"&catId=" + catId, 1, articleList.getList(),
+			PageUtils.page(request, "/index?chnId="+chnId+"&catId=" + catId, 10, articleList.getList(),
 					(long)articleList.getSize(), articleList.getPageNum());
 			//request.setAttribute("pageStr", pageStr);
 			
+		}else {
+			// 首页热门
+			// 获取热门文章
+			PageInfo<Article>  articleList = articleService.hostList(page);
+			request.setAttribute("articles", articleList);
+			PageUtils.page(request, "/index", 10, articleList.getList(),
+					(long)articleList.getSize(), articleList.getPageNum());
+			
 		}
+		
+		//获取最新文章
+		List<Article>  lastList = articleService.last(5);
+		request.setAttribute("lastList", lastList);
+		
 		
 		
 		

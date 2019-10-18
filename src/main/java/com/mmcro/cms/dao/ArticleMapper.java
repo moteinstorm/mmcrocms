@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.entity.Article;
 
 /**
@@ -22,5 +23,31 @@ public interface ArticleMapper {
 	 */
 	List<Article> list(@Param("chnId") Integer chnId, 
 			@Param("catId") Integer catId);
+
+	/**
+	 * 获取热门文章
+	 * @return
+	 */
+	List<Article>  listHot();
+	/**
+	 * 获取最新文章
+	 * @param sum
+	 * @return
+	 */
+	List<Article> listLast(int sum);
+
+	/**
+	 * 
+	 * @param articleId
+	 * @return
+	 */
+	Article findById(Integer articleId);
+
+	/**
+	 * 添加文章
+	 * @param article
+	 * @return
+	 */
+	int add(Article article);
 
 }

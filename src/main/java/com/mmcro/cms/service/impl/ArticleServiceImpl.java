@@ -1,5 +1,7 @@
 package com.mmcro.cms.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,35 @@ public class ArticleServiceImpl implements ArticleService {
 		// TODO Auto-generated method stub
 		//查询指定页码数据 并返回页面信息
 		return new PageInfo(articleMapper.list(chnId,catId)) ;
+	}
+
+	@Override
+	public PageInfo<Article> hostList(Integer page) {
+		// TODO Auto-generated method stub
+		//设置页码
+		PageHelper.startPage(page, 10);
+		// TODO Auto-generated method stub
+		//查询指定页码数据 并返回页面信息
+		return new PageInfo(articleMapper.listHot()) ;
+	}
+
+	@Override
+	public List<Article> last(int sum) {
+		// TODO Auto-generated method stub
+		return  articleMapper.listLast(sum);
+	}
+
+	@Override
+	public Article findById(Integer articleId) {
+		// TODO Auto-generated method stub
+		return articleMapper.findById(articleId);
+				
+	}
+
+	@Override
+	public int add(Article article) {
+		// TODO Auto-generated method stub
+		return articleMapper.add(article);
 	}
 	
 

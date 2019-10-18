@@ -19,7 +19,31 @@
 		 	AND category_id=#{catId}
 		 </if>       
 	</select>
+	<select id="listHot"  resultMap="articleMapper">
+		SELECT id,title,picture,channel_id,category_id,user_id,
+		        hits,hot,status,created,updated,commentCnt
+		 FROM cms_article
+		 	WHERE hot>0
+		 	ORDER BY hot DESC,created DESC
+	</select>
+	<!-- 获取最新文章 -->
+	<select id="listLast"  resultMap="articleMapper">
+		SELECT id,title,picture,channel_id,category_id,user_id,
+		        hits,hot,status,created,updated,commentCnt
+		 FROM cms_article
+		 	ORDER BY created DESC limit #{value}
+	</select>
 	
+	<select id="findById" resultMap="articleMapper">
+		SELECT id,title,picture,content,channel_id,category_id,user_id,
+		        hits,hot,status,created,updated,commentCnt
+		 FROM cms_article
+		 WHERE id=#{value}
+	</select>
+	<insert id="add"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO cms_article(title,content,picture,channel_id,category_id,user_id,hits,hot,status,deleted,created,updated,commentCnt)
+		  values(#{title},#{content},#{picture},#{channelId},#{categoryId},#{userId},0,0,0,0,now(),now(),0)
+	</insert>
 </mapper>
   
   

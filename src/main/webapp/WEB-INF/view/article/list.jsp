@@ -30,7 +30,7 @@
 	<script type="text/javascript">
 	 function myopen(id){
 		 //在新窗口打开文章的详情J
-		 window.open("/article/getDetail?aId="+id,"_blank")
+		 window.open("/article/show?id="+id,"_blank")
 	 }
    </script>
  <jsp:include page="/WEB-INF/view/common/includejs.jsp"></jsp:include>

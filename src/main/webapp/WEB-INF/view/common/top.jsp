@@ -17,7 +17,7 @@
   <ul class="nav">
    	<c:choose>
    	<%-- 登录显示用户菜单 --%>
-    <c:when test="${sessionScope.USER_SESSION_KEY != null}">
+    <c:when test="${sessionScope.SESSION_USER_KEY != null}">
    	 <li class="nav-item">
    		<a class="nav-link" href="/my/home">
 		<img alt="" src="/resource/images/default_avatar.png" style="max-height: 2.5rem" class="rounded img-fluid">
@@ -26,7 +26,7 @@
    	 <li class="nav-item">
    		<div class="dropdown" style="padding-top: 0.4rem;">
 		  <a href="#" class="nav-link dropdown-toggle" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    <c:out value="${sessionScope.USER_SESSION_KEY.username}" default="CMS-User"/>
+		    <c:out value="${sessionScope.SESSION_USER_KEY.username}" default="CMS-User"/>
 		  </a>
 		  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 		     <a class="dropdown-item" href="/">返回首页</a>
