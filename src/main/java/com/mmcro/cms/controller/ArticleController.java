@@ -90,7 +90,7 @@ public class ArticleController   {
 		if(!pathFile.exists()) {
 			pathFile.mkdir();
 		}
-		String destFileName = 		path +  UUID.randomUUID().toString() + suffixName;
+		String destFileName = 		path + "/" +  UUID.randomUUID().toString() + suffixName;
 		File distFile = new File( destFileName);
 		file.transferTo(distFile);//文件另存到这个目录下边
 		article.setPicture(destFileName.substring(7));
