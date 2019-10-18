@@ -28,7 +28,7 @@
 			href="/index?chnId=${chnId}&catId=${catygory.id}">${catygory.name }</a></li>
 	</c:forEach>
 
-	<!-- 所有栏目下的文章 -->
+<%-- 	<!-- 所有栏目下的文章 -->
 	<div id="content-wrapper">
 
 		 <ul class="list-unstyled">
@@ -44,7 +44,7 @@
 						</h5>
 						<br> <br>
 						<h5 class="mt-0 mb-1">
-							<small> <%--  ${article.username }  --%>&nbsp; <fmt:formatDate value="${article.created }" pattern="yyyy-MM-dd"/></small>
+							<small>  ${article.username } &nbsp; <fmt:formatDate value="${article.created }" pattern="yyyy-MM-dd"/></small>
 						</h5>
 
 					</div></li>
@@ -52,9 +52,10 @@
 			</c:forEach>
 			<li> ${page}</li>
 		</ul>
-</ul>
+		--%>
+</ul> 
 </div>
-</div>
+
 
 <script type="text/javascript">
 
@@ -90,4 +91,3 @@
 	}
 
 </script> 
-<jsp:include page="/WEB-INF/view/common/includejs.jsp"></jsp:include>
