@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>	
 <%
 	request.setCharacterEncoding("UTF-8");
 	String htmlData = request.getAttribute("content1") != null ? (String)request.getAttribute("content1") : "";
@@ -58,8 +59,13 @@
 		</div>
 		<div class="form-group row ">
 		  	<label for="channel">文章栏目</label> 
+			
 			<select class="custom-select custom-select-sm mb-3" id="channel"  name="channelId">
-			  <option></option>
+				<option value="0">请选择</option>  
+				<c:forEach items="${channels}" var="channel">
+					<option value="${channel.id}" ${channel.id==article.channelId?"selected":""} >   ${channel.name}</option> 
+				</c:forEach>
+				
 			</select>
 			<label for="category">文章分类</label> 
 			<select class="custom-select custom-select-sm mb-3" id="category" name="categoryId">
@@ -112,7 +118,7 @@ function publish(){
 			    {
 					alert("修改成功!")
 					// location="/article/listMyArticle";
-					$("#center").load("/article/listMyArticle")
+					$("#center").load("/user/myarticlelist")
 				}else{
 					alert("修改失败")
 				}
@@ -134,13 +140,13 @@ function publish(){
 
 
 $(function(){
-
-
+	alert('test');
+	changeChannel();
 
 
 
 	//自动加载文章的栏目
- 	$.ajax({
+ 	/* $.ajax({
 		type:"get",
 		url:"/article/getAllChn",
 		success:function(list){
@@ -174,27 +180,35 @@ $(function(){
 			}
 		}
 		
-	})
+	}) */
  	
 	
 	
-	//为栏目添加绑定事件
+	//为栏目添加绑定事件   触发联动
 	 $("#channel").change(function(){
-		 //先清空原有的栏目下的分类
-		 $("#category").empty();
-		var cid =$(this).val();//获取当前的下拉框的id
-		//根据ID 获取栏目下的分类
-	 	$.get("/article/getCatsByChn",{channelId:cid},function(list){
-		
-		 for(var i in list){
-		  $("#category").append("<option value='"+list[i].id+"'>"+list[i].name+"</option>")
-
-
-		 }
-		 
-	 })
+		 changeChannel();
 	}) 
 })
+
+	function changeChannel(){
+			
+			 //先清空原有的栏目下的分类
+			 $("#category").empty();
+			var cid =$("#channel").val();//获取当前的下拉框的id
+			//根据ID 获取栏目下的分类
+		 	$.get("/article/listCatByChnl",{chnlId:cid},function(list){
+			
+			 for(var i in list){
+				if(list[i].id==${article.categoryId}){
+			  		$("#category").append("<option value='"+list[i].id+"' selected >"+list[i].name+"</option>")
+				}else{
+					$("#category").append("<option value='"+list[i].id+"'>"+list[i].name+"</option>")
+				}
+			 }
+		 })
+}
+
+
 
 
 </script>

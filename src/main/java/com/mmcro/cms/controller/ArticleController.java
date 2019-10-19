@@ -147,7 +147,8 @@ public class ArticleController   {
 	 * @throws IllegalStateException 
 	 */
 	@RequestMapping(value = "update",method=RequestMethod.POST)
-	public String update(HttpServletRequest request,Article article, MultipartFile file) throws IllegalStateException, IOException {
+	@ResponseBody
+	public boolean update(HttpServletRequest request,Article article, MultipartFile file) throws IllegalStateException, IOException {
 		
 		processFile(file,article);
 		
@@ -157,13 +158,9 @@ public class ArticleController   {
 		
 		int result = articleService.update(article);
 		
-		return "article/update";
+		return result > 0;
 		
 	}
-	
-	
-	
-	
 	
 	
 	/**
