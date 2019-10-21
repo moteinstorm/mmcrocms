@@ -75,5 +75,11 @@ public interface ArticleMapper {
 	@Update("UPDATE cms_article set title=#{title},content=#{content},picture=#{picture},channel_id=#{channelId},"
 			+ "category_id=#{categoryId},updated=now() WHERE id=#{id}")
 	int update(Article article);
+
+	/**
+	 * 获取需要管理的文章
+	 * @return
+	 */
+	List<Article> listAdmin();
 	
 }

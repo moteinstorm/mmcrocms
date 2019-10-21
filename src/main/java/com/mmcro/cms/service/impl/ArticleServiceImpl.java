@@ -85,6 +85,14 @@ public class ArticleServiceImpl implements ArticleService {
 		// TODO Auto-generated method stub
 		return  articleMapper.update(article);
 	}
+
+	@Override
+	public PageInfo<Article> getAdminArticles(Integer page) {
+		// TODO Auto-generated method stub
+		System.out.println(" ============ page is " + page);
+		PageHelper.startPage(page, 10);
+		return new PageInfo<Article>(articleMapper.listAdmin());
+	}
 	
 
 }

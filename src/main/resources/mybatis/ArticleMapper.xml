@@ -43,6 +43,16 @@
 		 	ORDER BY created DESC limit #{value}
 	</select>
 	
+	<!-- 获取需要管理的文章 -->
+	<select id="listAdmin" resultMap="articleMapper">
+		SELECT id,title,picture,channel_id,category_id,user_id,
+		        hits,hot,status,created,updated
+		 FROM cms_article 
+		 	WHERE deleted=0
+		 	ORDER BY created DESC 
+	</select>
+	
+	
 	<select id="findById" resultMap="articleMapper">
 		SELECT id,title,picture,content,channel_id,category_id,user_id,
 		        hits,hot,status,created,updated,commentCnt

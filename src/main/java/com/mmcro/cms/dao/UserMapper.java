@@ -27,7 +27,7 @@ public interface UserMapper {
 	 * @param username
 	 * @return
 	 */
-	@Select("SELECT id,username,password FROM cms_user "
+	@Select("SELECT id,username,password,role FROM cms_user "
 			+ "WHERE username=#{value} limit 1")
 	User findByName(String username);
 	

@@ -61,6 +61,8 @@ public interface ArticleService {
 	 * @return
 	 */
 	int update(Article article);
+
+	PageInfo<Article> getAdminArticles(Integer page);
 	
 
 }
