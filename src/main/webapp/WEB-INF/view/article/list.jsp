@@ -24,7 +24,7 @@
 				</li>
 				<hr>
 		</c:forEach>
-		<div>${pageStr}</div>
+		<div>${page}</div>
 	</ul> 
 
 	<script type="text/javascript">

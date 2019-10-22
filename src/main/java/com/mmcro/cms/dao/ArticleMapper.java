@@ -80,6 +80,25 @@ public interface ArticleMapper {
 	 * 获取需要管理的文章
 	 * @return
 	 */
-	List<Article> listAdmin();
+	List<Article> listAdmin(@Param("status") Integer status);
+
+	/**
+	 * 修改文章状态
+	 * @param articleId
+	 * @param status
+	 * @return
+	 */
+	@Update("UPDATE cms_article set status=#{status},updated=now() WHERE id=#{articleId}")
+	int updateStatus(@Param("articleId") Integer articleId, @Param("status") int status);
+
+	/**
+	 * 修改文章热门状态
+	 * @param articleId
+	 * @param status
+	 * @return
+	 */
+	@Update("UPDATE cms_article set hot=#{status},updated=now() "
+			+ " WHERE id=#{articleId}")
+	int updateHot(@Param("articleId") Integer articleId, @Param("status") int status);
 	
 }

@@ -18,7 +18,7 @@ $(function(){
 	
 	$(".form-control-sm").change(function(){
 		
-		$("#content-wrapper").load("/article/checkList?status="+$(this).val())
+		$("#content-wrapper").load("/admin/manArticle?status="+$(this).val())
 	})
 	//下拉框回显
 	$(".form-control-sm").val('${status}')
@@ -41,10 +41,10 @@ function toDetail(id){
 		<div>
 		     文章状态
 			  <select class="form-control-sm" >
-			    <option value="">全部</option>
+			    <option value="-1">全部</option>
 			    <option value="0">待审核</option>
 			    <option value="1">已审核</option>
-			    <option value="-1">审核未通过</option>
+			    <option value="2">审核未通过</option>
 			  </select>
 		
 		</div>
@@ -78,7 +78,7 @@ function toDetail(id){
 
 		</table>
 		<div>
-		
+			${page}
 		</div>
 	</div>
 </body>

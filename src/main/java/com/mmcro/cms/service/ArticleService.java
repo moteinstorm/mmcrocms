@@ -62,7 +62,30 @@ public interface ArticleService {
 	 */
 	int update(Article article);
 
-	PageInfo<Article> getAdminArticles(Integer page);
+	/**
+	 * 
+	 * @param page 页码
+	 * @param status 审核的状态
+	 * @return
+	 */
+	PageInfo<Article> getAdminArticles(Integer page,Integer status);
+	
+/**
+ *  审核文章
+ * @param articleId
+ * @param status 要审核的状态
+ * @return
+ */
+	int updateStatus(Integer articleId, int status);
+
+	/**
+	 * 
+	 *  修改热门
+	 * @param articleId
+	 * @param status
+	 * @return
+	 */
+	int updateHot(Integer articleId, int status);
 	
 
 }

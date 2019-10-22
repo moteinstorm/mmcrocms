@@ -87,11 +87,23 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public PageInfo<Article> getAdminArticles(Integer page) {
+	public PageInfo<Article> getAdminArticles(Integer page,Integer status) {
 		// TODO Auto-generated method stub
 		System.out.println(" ============ page is " + page);
 		PageHelper.startPage(page, 10);
-		return new PageInfo<Article>(articleMapper.listAdmin());
+		return new PageInfo<Article>(articleMapper.listAdmin(status));
+	}
+
+	@Override
+	public int updateStatus(Integer articleId, int status) {
+		// TODO Auto-generated method stub
+		return articleMapper.updateStatus(articleId,status);
+	}
+
+	@Override
+	public int updateHot(Integer articleId, int status) {
+		// TODO Auto-generated method stub
+		return articleMapper.updateHot(articleId,status);
 	}
 	
 

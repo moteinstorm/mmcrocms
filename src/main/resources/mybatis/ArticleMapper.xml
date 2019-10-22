@@ -49,6 +49,9 @@
 		        hits,hot,status,created,updated
 		 FROM cms_article 
 		 	WHERE deleted=0
+		 	<if test="status != -1 ">
+		 		AND status=#{status} 	
+		 	</if>
 		 	ORDER BY created DESC 
 	</select>
 	
