@@ -43,7 +43,7 @@ public class IndexController {
 	 * @param page  文章的页码
 	 * @return
 	 */
-	@RequestMapping("index")
+	@RequestMapping({"index","/"})
 	public String index(HttpServletRequest request,
 			@RequestParam(defaultValue="0") Integer chnId,
 			@RequestParam(defaultValue="0")  Integer catId,
