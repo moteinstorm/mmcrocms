@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mmcro.cms.comon.ConstClass;
+import com.mmcro.cms.comon.ResultMsg;
 import com.mmcro.cms.entity.Article;
 import com.mmcro.cms.entity.Cat;
 import com.mmcro.cms.entity.Channel;
@@ -124,6 +125,14 @@ public class ArticleController   {
 	private void processFile(MultipartFile file,Article article) throws IllegalStateException, IOException {
 
 		// 原来的文件名称
+		System.out.println("file.isEmpty() :" + file.isEmpty()  );
+		System.out.println("file.name :" + file.getOriginalFilename());
+		
+		if(file.isEmpty()||"".equals(file.getOriginalFilename()) || file.getOriginalFilename().lastIndexOf('.')<0 ) {
+			article.setPicture("");
+			return;
+		}
+			
 		String originName = file.getOriginalFilename();
 		String suffixName = originName.substring(originName.lastIndexOf('.'));
 		SimpleDateFormat sdf=  new SimpleDateFormat("yyyyMMdd");
@@ -170,10 +179,11 @@ public class ArticleController   {
 	 */
 	@RequestMapping(value="listCatByChnl",method=RequestMethod.GET)
 	@ResponseBody
-	public List<Cat> getCatByChnl(int chnlId){
+	//public List<Cat> getCatByChnl(int chnlId){
+	public ResultMsg getCatByChnl(int chnlId){
 		
 		List<Cat> chnlList = catService.getListByChnlId(chnlId);
-		return chnlList;
+		return new ResultMsg(1, "获取数据成功", chnlList);
 	}
 	
 	

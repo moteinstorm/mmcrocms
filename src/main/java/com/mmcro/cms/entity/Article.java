@@ -14,6 +14,13 @@ public class Article implements Serializable {
 	private Integer id;
 	//标题
 	private String title;
+	
+	public String getTags() {
+		return tags;
+	}
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
 	//文章内容
 	private String content;
 	//图片
@@ -61,6 +68,9 @@ public class Article implements Serializable {
 	private Date updated;
 	//评论数量
 	private Integer commentCnt;
+	
+	// 标签 用逗号分隔
+	private String tags;
 	
 	public User getUser() {
 		return user;
@@ -161,8 +171,8 @@ public class Article implements Serializable {
 		return "Article [id=" + id + ", title=" + title + ", content=" + content + ", picture=" + picture
 				+ ", channelId=" + channelId + ", channel=" + channel + ", categoryId=" + categoryId + ", cat=" + cat
 				+ ", userId=" + userId + ", hits=" + hits + ", hot=" + hot + ", status=" + status + ", deleted="
-				+ deleted + ", created=" + created + ", updated=" + updated + ", commentCnt=" + commentCnt + ", user="
-				+ user + "]";
+				+ deleted + ", created=" + created + ", updated=" + updated + ", commentCnt=" + commentCnt + ", tags="
+				+ tags + ", user=" + user + "]";
 	}
 	@Override
 	public int hashCode() {

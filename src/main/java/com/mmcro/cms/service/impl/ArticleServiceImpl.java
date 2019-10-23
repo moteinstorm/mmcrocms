@@ -9,7 +9,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.dao.ArticleMapper;
 import com.mmcro.cms.entity.Article;
+import com.mmcro.cms.entity.Tag;
 import com.mmcro.cms.service.ArticleService;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -60,9 +62,50 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public int add(Article article) {
 		// TODO Auto-generated method stub
-		return articleMapper.add(article);
+		
+		int result =  articleMapper.add(article);
+		processTag(article);
+		
+		return result ;
 	}
+	
+	/**
+	 *  处理文章的标签
+	 * @param article
+	 */
+	private void processTag(Article article){
+		
+		String[] tags = article.getTags().split(",");
+		for (String tag : tags) {
+			// 判断这个tag在数据库当中是否存在
+			Tag tagBean = articleMapper.findTagByName(tag);
+			if(tagBean==null) {
+				tagBean = new Tag(tag);
+				articleMapper.addTag(tagBean);
+			}
+			
+			//插入中间表
+			try {
+				articleMapper.addArticleTag(article.getId(),tagBean.getId());
+			}catch(Exception e){
+				System.out.println("插入失败 ");
+			}
+		}
+	}
+	
+	
 
+	@Override
+	public int update(Article article) {
+		// TODO Auto-generated method stub
+		int result = articleMapper.update(article);
+		// 删除中间表中的
+		articleMapper.delTagsByArticleId(article.getId());
+		processTag(article);
+		return result;
+		
+	}
+	
 	/**
 	 * 
 	 */
@@ -74,17 +117,17 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	}
 
+	
 	@Override
 	public int remove(Integer id) {
 		// TODO Auto-generated method stub
-		return articleMapper.deleteById(id);
+		int result =  articleMapper.deleteById(id);
+		// 删除中间表
+		articleMapper.delTagsByArticleId(id);
+		return result;
 	}
 
-	@Override
-	public int update(Article article) {
-		// TODO Auto-generated method stub
-		return  articleMapper.update(article);
-	}
+	
 
 	@Override
 	public PageInfo<Article> getAdminArticles(Integer page,Integer status) {

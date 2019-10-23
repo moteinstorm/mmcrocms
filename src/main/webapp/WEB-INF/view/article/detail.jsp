@@ -23,6 +23,7 @@
 				<hr>
 			
 			<dd>${article.content }</dd>
+			<dd>文章标签：${article.tags}</dd>
 			<dd><ul class="pagination"><li class="page-item">${adjStr}</li></ul></dd>
 			
 			<dd><div>

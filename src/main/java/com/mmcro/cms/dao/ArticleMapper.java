@@ -2,11 +2,15 @@ package com.mmcro.cms.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.entity.Article;
+import com.mmcro.cms.entity.Tag;
 
 /**
  * 文章管理
@@ -100,5 +104,36 @@ public interface ArticleMapper {
 	@Update("UPDATE cms_article set hot=#{status},updated=now() "
 			+ " WHERE id=#{articleId}")
 	int updateHot(@Param("articleId") Integer articleId, @Param("status") int status);
+
+	/**
+	 * 根据标签名称获取标签对象
+	 * @param tag
+	 * @return
+	 */
+	@Select("SELECT * FROM cms_tag where tagname=#{value} limit 1")
+	Tag findTagByName(String tag);
+
+	
+	/**
+	 * 增加Tag实体备案
+	 * @param tagBean
+	 * @return
+	 */
+	int addTag(Tag tagBean);
+
+	/**
+	 * 增加数据到文章标签中间表
+	 * @param articleId 
+	 * @param tagId  
+	 */
+	@Insert("INSERT INTO cms_article_tag_middle values(#{articleId},#{tagId}) ")
+	void addArticleTag(@Param("articleId") Integer articleId, @Param("tagId") Integer tagId);
+
+	/**
+	 *  删除中间表
+	 * @param articleId
+	 */
+	@Delete(" DELETE FROM cms_article_tag_middle WHERE aid=#{value}")
+	int delTagsByArticleId(Integer articleId);
 	
 }

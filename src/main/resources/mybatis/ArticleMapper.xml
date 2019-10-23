@@ -14,7 +14,16 @@
 		   select="com.mmcro.cms.dao.ChannelMapper.findById" />
 		<association property="cat" column="category_id" 
 		   select="com.mmcro.cms.dao.CatMapper.findById" />
+		<association property="tags" column="id" 
+		   select="findTagsByArticleId" />   
 	</resultMap> 
+	
+	<select id="findTagsByArticleId" resultType="java.lang.String">
+		SELECT GROUP_CONCAT(tagname) tags 
+  			FROM cms_article_tag_middle m  JOIN cms_tag  t on m.tid=t.id 
+  			WHERE m.aid= #{value}
+			GROUP BY m.aid
+	</select>
 	
 	<!-- 根据文章的分类和频道获取文章 -->
 	<select id="list" resultMap="articleMapper">
@@ -24,22 +33,25 @@
 		 WHERE channel_id=#{chnId}
 		 <if test="catId!=0">
 		 	AND category_id=#{catId}
-		 </if>       
+		 </if>    
+		 AND status=1   AND deleted=0
 	</select>
+	
 	<select id="listHot"  resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
 		        hits,hot,status,created,updated,commentCnt
 		 FROM cms_article
-		 	WHERE hot>0
+		 	WHERE hot>0 AND status=1 
 		 	AND deleted=0
 		 	ORDER BY hot DESC,created DESC
 	</select>
+	
 	<!-- 获取最新文章 -->
 	<select id="listLast"  resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
 		        hits,hot,status,created,updated,commentCnt
 		 FROM cms_article
-		 	WHERE deleted=0
+		 	WHERE deleted=0 AND status=1 
 		 	ORDER BY created DESC limit #{value}
 	</select>
 	
@@ -70,7 +82,7 @@
 		        hits,hot,status,created,updated,commentCnt
 		 FROM cms_article
 		 WHERE user_id=#{value}
-		   AND deleted=0
+		   AND deleted=0 
 	</select>
 	
 	
@@ -78,6 +90,11 @@
 		INSERT INTO cms_article(title,content,picture,channel_id,category_id,user_id,hits,hot,status,deleted,created,updated,commentCnt)
 		  values(#{title},#{content},#{picture},#{channelId},#{categoryId},#{userId},0,0,0,0,now(),now(),0)
 	</insert>
+	    
+	<insert id="addTag" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO cms_tag(tagname) values(#{tagname})
+	</insert>
+	
 </mapper>
   
   

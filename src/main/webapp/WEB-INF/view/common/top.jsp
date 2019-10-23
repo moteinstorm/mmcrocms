@@ -30,7 +30,13 @@
 		  </a>
 		  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 		     <a class="dropdown-item" href="/">返回首页</a>
-		    <a class="dropdown-item" href="/user/home">个人主页</a>
+		    <c:if test="${sessionScope.SESSION_USER_KEY.role==1}">
+		    	<a class="dropdown-item" href="/admin/index">后台管理</a>
+		    </c:if>
+		    <c:if test="${sessionScope.SESSION_USER_KEY.role==0}">
+		    	<a class="dropdown-item" href="/user/home">个人主页</a>
+		    </c:if>
+		    
 		    <a class="dropdown-item" href="#">个人设置</a>
 		    <a class="dropdown-item" href="#">我的文章</a>
 		    <div class="dropdown-divider"></div>

@@ -65,6 +65,10 @@ String htmlData = request.getParameter("content1") != null ? request.getParamete
 			<label for="category">文章分类</label> 
 			<select class="custom-select custom-select-sm mb-3" id="category" name="categoryId">
 			</select>
+			
+			<label for="category">文章标签</label> 
+				<input name="tags" size="50"/>
+			
 		</div>
 		
 		<div class="form-group row" >
@@ -103,7 +107,7 @@ function publish(){
 			success:function(obj){
 				if(obj){
 					alert("发布成功!")
-					$('#center').load("/article/listMyArticle");
+					$('#center').load("/user/myarticlelist");
 				}else{
 					alert("发布失败")
 				}
@@ -143,13 +147,14 @@ $(function(){
 		 $("#category").empty();
 		var cid =$(this).val();//获取当前的下拉框的id
 		//根据ID 获取栏目下的分类
-	 	$.get("/article/listCatByChnl",{chnlId:cid},function(list){
-		
-		 for(var i in list){
-		  	$("#category").append("<option value='"+list[i].id+"'>"+list[i].name+"</option>")
+	 	$.get("/article/listCatByChnl",{chnlId:cid},function(resultData){
+		if(resultData.result==1){
+			var list = resultData.data;
+			 for(var i in list){
+				  	$("#category").append("<option value='"+list[i].id+"'>"+list[i].name+"</option>")
 
-		 }
-		 
+			}	
+		}
 	 })
 	})
 })

@@ -70,6 +70,10 @@
 			<label for="category">文章分类</label> 
 			<select class="custom-select custom-select-sm mb-3" id="category" name="categoryId">
 			</select>
+			
+			<label for="category">文章标签</label> 
+				<input name="tags" size="50" value="${article.tags}"/>
+				
 		</div>
 		
 		<div class="form-group row" >
@@ -196,15 +200,17 @@ $(function(){
 			 $("#category").empty();
 			var cid =$("#channel").val();//获取当前的下拉框的id
 			//根据ID 获取栏目下的分类
-		 	$.get("/article/listCatByChnl",{chnlId:cid},function(list){
-			
-			 for(var i in list){
-				if(list[i].id==${article.categoryId}){
-			  		$("#category").append("<option value='"+list[i].id+"' selected >"+list[i].name+"</option>")
-				}else{
-					$("#category").append("<option value='"+list[i].id+"'>"+list[i].name+"</option>")
-				}
-			 }
+		 	$.get("/article/listCatByChnl",{chnlId:cid},function(resultData){
+			if(resultData.result==1){
+				var list = resultData.data;
+				 for(var i in list){
+					if(list[i].id==${article.categoryId}){
+				  		$("#category").append("<option value='"+list[i].id+"' selected >"+list[i].name+"</option>")
+					}else{
+						$("#category").append("<option value='"+list[i].id+"'>"+list[i].name+"</option>")
+					}
+				 }
+			}
 		 })
 }
 

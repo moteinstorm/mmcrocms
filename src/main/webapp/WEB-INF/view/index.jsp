@@ -187,5 +187,6 @@
 		 }
 		 
 	</script>
+	<script type="text/javascript" src="/resource/js/cms.js"></script>
 </body>
 </html>
