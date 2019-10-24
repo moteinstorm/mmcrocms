@@ -7,6 +7,9 @@
 		<id column="id" property="id" />
 		<result column="channel_id" property="channelId"/>
 		<result column="category_id" property="categoryId"/>
+		<result column="articleType" property="articleType" 
+		   typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+		   jdbcType="INTEGER" javaType="com.mmcro.cms.comon.ArticleType"/>
 		<result column="user_id" property="userId"/>
 		<association property="user" column="user_id" 
 		   select="com.mmcro.cms.dao.UserMapper.findUserById" />
@@ -19,7 +22,7 @@
 	</resultMap> 
 	
 	<select id="findTagsByArticleId" resultType="java.lang.String">
-		SELECT GROUP_CONCAT(tagname) tags 
+		SELECT GROUP_CONCAT(tagname) tags
   			FROM cms_article_tag_middle m  JOIN cms_tag  t on m.tid=t.id 
   			WHERE m.aid= #{value}
 			GROUP BY m.aid
@@ -28,7 +31,7 @@
 	<!-- 根据文章的分类和频道获取文章 -->
 	<select id="list" resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
-		        hits,hot,status,created,updated,commentCnt
+		        hits,hot,status,created,updated,commentCnt,articleType
 		 FROM cms_article
 		 WHERE channel_id=#{chnId}
 		 <if test="catId!=0">
@@ -39,7 +42,7 @@
 	
 	<select id="listHot"  resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
-		        hits,hot,status,created,updated,commentCnt
+		        hits,hot,status,created,updated,commentCnt,articleType
 		 FROM cms_article
 		 	WHERE hot>0 AND status=1 
 		 	AND deleted=0
@@ -49,7 +52,7 @@
 	<!-- 获取最新文章 -->
 	<select id="listLast"  resultMap="articleMapper">
 		SELECT id,title,picture,channel_id,category_id,user_id,
-		        hits,hot,status,created,updated,commentCnt
+		        hits,hot,status,created,updated,commentCnt,articleType
 		 FROM cms_article
 		 	WHERE deleted=0 AND status=1 
 		 	ORDER BY created DESC limit #{value}
@@ -70,7 +73,7 @@
 	
 	<select id="findById" resultMap="articleMapper">
 		SELECT id,title,picture,content,channel_id,category_id,user_id,
-		        hits,hot,status,created,updated,commentCnt
+		        hits,hot,status,created,updated,commentCnt,articleType
 		 FROM cms_article
 		 WHERE id=#{value}
 		 AND deleted=0
@@ -87,8 +90,10 @@
 	
 	
 	<insert id="add"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-		INSERT INTO cms_article(title,content,picture,channel_id,category_id,user_id,hits,hot,status,deleted,created,updated,commentCnt)
-		  values(#{title},#{content},#{picture},#{channelId},#{categoryId},#{userId},0,0,0,0,now(),now(),0)
+		INSERT INTO cms_article(title,content,picture,channel_id,category_id,user_id,hits,hot,status,deleted,created,updated,commentCnt,articleType)
+		  values(#{title},#{content},#{picture},#{channelId},#{categoryId},#{userId},0,0,0,0,now(),now(),0,
+		    #{articleType, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler,
+		   jdbcType=INTEGER, javaType=com.mmcro.cms.comon.ArticleType})
 	</insert>
 	    
 	<insert id="addTag" useGeneratedKeys="true" keyColumn="id" keyProperty="id">

@@ -2,6 +2,9 @@ package com.mmcro.cms.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.mmcro.cms.comon.ArticleType;
 
 public class Article implements Serializable {
 	
@@ -32,7 +35,25 @@ public class Article implements Serializable {
 	private Integer categoryId;
 	private Cat cat;
 	
+	private List<ImageBean> imgList;
 	
+	
+	public List<ImageBean> getImgList() {
+		return imgList;
+	}
+	public void setImgList(List<ImageBean> imgList) {
+		this.imgList = imgList;
+	}
+	private ArticleType articleType=ArticleType.HTML;
+	
+	
+	
+	public ArticleType getArticleType() {
+		return articleType;
+	}
+	public void setArticleType(ArticleType articleType) {
+		this.articleType = articleType;
+	}
 	public Channel getChannel() {
 		return channel;
 	}
@@ -164,15 +185,16 @@ public class Article implements Serializable {
 		return commentCnt;
 	}
 	public void setCommentCnt(Integer commentCnt) {
+		
 		this.commentCnt = commentCnt;
 	}
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", title=" + title + ", content=" + content + ", picture=" + picture
 				+ ", channelId=" + channelId + ", channel=" + channel + ", categoryId=" + categoryId + ", cat=" + cat
-				+ ", userId=" + userId + ", hits=" + hits + ", hot=" + hot + ", status=" + status + ", deleted="
-				+ deleted + ", created=" + created + ", updated=" + updated + ", commentCnt=" + commentCnt + ", tags="
-				+ tags + ", user=" + user + "]";
+				+ ", articleType=" + articleType + ", userId=" + userId + ", hits=" + hits + ", hot=" + hot
+				+ ", status=" + status + ", deleted=" + deleted + ", created=" + created + ", updated=" + updated
+				+ ", commentCnt=" + commentCnt + ", tags=" + tags + ", user=" + user + "]";
 	}
 	@Override
 	public int hashCode() {

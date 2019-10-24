@@ -75,6 +75,9 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	private void processTag(Article article){
 		
+		if(article.getTags()==null)
+			return;
+		
 		String[] tags = article.getTags().split(",");
 		for (String tag : tags) {
 			// 判断这个tag在数据库当中是否存在

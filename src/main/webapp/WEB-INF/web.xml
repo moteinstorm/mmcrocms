@@ -7,6 +7,13 @@
   	<param-name>contextConfigLocation</param-name>
   	<param-value>classpath:spring-beans.xml</param-value>
   </context-param>
+  
+  	<!-- 解决jetty插件无法修改html\js页面 -->
+  <context-param>
+    	<param-name>org.eclipse.jetty.servlet.Default.useFileMappedBuffer</param-name>
+    	<param-value>false</param-value>
+	</context-param>
+  
   <!--  spring监听  -->
   <listener>
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

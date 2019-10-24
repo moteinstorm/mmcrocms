@@ -1,5 +1,7 @@
 package com.mmcro.cms.controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,12 @@ public class AdminController {
 	
 	@RequestMapping("index")
 	public String index() {
+		//List a = new ArrayList<>();
+		//a.stream().filter()
+		
+		
 		return "admin/index";
+		
 	}
 	
 	@RequestMapping("manArticle")

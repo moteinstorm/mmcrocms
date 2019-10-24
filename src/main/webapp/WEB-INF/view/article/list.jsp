@@ -33,4 +33,3 @@
 		 window.open("/article/show?id="+id,"_blank")
 	 }
    </script>
- <jsp:include page="/WEB-INF/view/common/includejs.jsp"></jsp:include>

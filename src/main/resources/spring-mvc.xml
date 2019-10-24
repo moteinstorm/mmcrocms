@@ -25,6 +25,7 @@
 			<!-- 配置拦截的资源 -->
 			<mvc:mapping path="/**"/>
 			<!-- 配置排除的拦截资源 -->
+			<mvc:exclude-mapping path="/html/**"/>
 			<mvc:exclude-mapping path="/resource/**"/>
 			<mvc:exclude-mapping path="/article/show"/>
 			<mvc:exclude-mapping path="/pic/**"/>
