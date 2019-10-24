@@ -68,7 +68,7 @@ public class ArticleController   {
 			Gson gson = new Gson();
 			article.setImgList(gson.fromJson(article.getContent(), List.class));
 			request.setAttribute("article", article);
-			return "article/imgdetail";
+			return "article/imgarticle";
 		}
 	}
 	

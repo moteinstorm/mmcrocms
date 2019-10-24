@@ -6,9 +6,13 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>文章详情</title>
+	<!-- <link rel="stylesheet"
+	href="/resource/css/bootstrap.min.css"> -->
 	<link rel="stylesheet" href="//cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	
 	<script src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 	<script src="//cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	
 </head>
 <body>
