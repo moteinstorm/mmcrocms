@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.dao.ArticleMapper;
 import com.mmcro.cms.entity.Article;
+import com.mmcro.cms.entity.Comment;
 import com.mmcro.cms.entity.Tag;
 import com.mmcro.cms.service.ArticleService;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
@@ -150,6 +151,27 @@ public class ArticleServiceImpl implements ArticleService {
 	public int updateHot(Integer articleId, int status) {
 		// TODO Auto-generated method stub
 		return articleMapper.updateHot(articleId,status);
+	}
+
+	@Override
+	public void comment(Integer userId, Integer articleId, String content) {
+		// TODO Auto-generated method stub
+		Comment comment = new Comment(articleId,userId,content);
+		articleMapper.addComment(comment);
+		articleMapper.increaseCommentCnt(articleId);
+		
+		
+	}
+
+	/**
+	 * 获取评论
+	 */
+	@Override
+	public PageInfo<Comment> getCommentByArticleId(Integer articleId, Integer page) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page, 5);
+		return new PageInfo<Comment>(articleMapper.getCommnentByArticleId(articleId));
+		
 	}
 	
 

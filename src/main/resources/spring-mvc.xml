@@ -28,6 +28,8 @@
 			<mvc:exclude-mapping path="/html/**"/>
 			<mvc:exclude-mapping path="/resource/**"/>
 			<mvc:exclude-mapping path="/article/show"/>
+			<mvc:exclude-mapping path="/article/comment"/>
+			<mvc:exclude-mapping path="/article/getclist"/>
 			<mvc:exclude-mapping path="/pic/**"/>
 			<mvc:exclude-mapping path="/"/>
 			<mvc:exclude-mapping path="/index"/>

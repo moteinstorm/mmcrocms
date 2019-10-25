@@ -1,5 +1,6 @@
 package com.mmcro.cms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +14,11 @@ import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.entity.Article;
 import com.mmcro.cms.entity.Cat;
 import com.mmcro.cms.entity.Channel;
+import com.mmcro.cms.entity.Special;
 import com.mmcro.cms.service.ArticleService;
 import com.mmcro.cms.service.CatService;
 import com.mmcro.cms.service.ChannelService;
+import com.mmcro.cms.service.SpecialService;
 import com.mmcro.cms.web.PageUtils;
 
 /**
@@ -34,6 +37,9 @@ public class IndexController {
 	
 	@Autowired
 	ArticleService articleService;
+	
+	@Autowired
+	SpecialService specialService;
 
 	/**
 	 * 
@@ -104,6 +110,16 @@ public class IndexController {
 			}
 		};
 		
+		List<Special> specials= new ArrayList<Special>();
+		// 获取专题文章
+		List<Special> list = specialService.list();
+		for (Special special : list) {
+			Special newSpecial = specialService.findById(special.getId());
+			specials.add(newSpecial);
+		}
+		
+		
+		
 		t1.start();
 		t2.start();
 		t3.start();
@@ -117,6 +133,8 @@ public class IndexController {
 		
 		request.setAttribute("chnId", chnId);
 		request.setAttribute("catId", catId);
+		
+		request.setAttribute("specials", specials);
 		
 		
 		return "index";

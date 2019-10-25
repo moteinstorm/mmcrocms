@@ -13,6 +13,9 @@
 	<li class="nav-item"><a class="nav-link"  href="javascript:void(0)" data="/user/list">
 			<i class="fas fa-fw fa-chart-area"></i> <span>用户管理</span>
 	</a></li>
+	<li class="nav-item"><a class="nav-link" href="javascript:void(0)" data="/special/list">
+			<i class="fas fa-fw fa-chart-area"></i> <span>专题管理</span>
+	</a></li>
 	<li class="nav-item"><a class="nav-link" href="javascript:void(0)" data="待开发">
 			<i class="fas fa-fw fa-chart-area"></i> <span>分类管理</span>
 	</a></li>

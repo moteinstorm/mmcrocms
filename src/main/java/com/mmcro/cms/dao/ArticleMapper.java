@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.entity.Article;
+import com.mmcro.cms.entity.Comment;
 import com.mmcro.cms.entity.Tag;
 
 /**
@@ -135,5 +136,33 @@ public interface ArticleMapper {
 	 */
 	@Delete(" DELETE FROM cms_article_tag_middle WHERE aid=#{value}")
 	int delTagsByArticleId(Integer articleId);
+
+	@Insert("INSERT INTO cms_comment(userId,articleId,content,created) "
+			+ "VALUES(#{userId},#{articleId},#{content},now() )")
+	void addComment(Comment comment);
+	
+	@Update(" UPDATE cms_article SET commentCnt=commentCnt+1 WHERE id=#{value}")
+	void increaseCommentCnt(Integer articleId);
+	
+	@Select("SELECT c.*,u.username as userName FROM cms_comment c LEFT JOIN cms_user u ON u.id=c.userId "
+			+ " WHERE c.articleId=#{value} ORDER BY id desc")
+	List<Comment> getCommnentByArticleId(Integer articleId);
+
+	/**
+	 * 根据主题id获取文章列表
+	 * @param id
+	 * @return
+	 */
+	@Select("SELECT a.id,a.title,a.created FROM cms_special_article  "
+			+ " sa JOIN cms_article  a ON sa.aid=a.id "
+			+ " WHERE sa.sid=#{value}")
+	List<Article> findBySepecailId(Integer id);
+
+	@Select("SELECT count(1) FROM cms_special_article  "
+			+ " sa JOIN cms_article  a ON sa.aid=a.id "
+			+ " WHERE sa.sid=#{value}")
+	Integer getArticleNum(Integer id);
+	
+	
 	
 }

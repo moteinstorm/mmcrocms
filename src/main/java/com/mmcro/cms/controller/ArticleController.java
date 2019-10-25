@@ -5,29 +5,30 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.List; 
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.mmcro.cms.comon.ArticleType;
-import com.mmcro.cms.comon.CmsException;
+import com.mmcro.cms.comon.CmsAssertJson;
+import com.mmcro.cms.comon.CmsExceptionJson;
 import com.mmcro.cms.comon.ConstClass;
 import com.mmcro.cms.comon.ResultMsg;
 import com.mmcro.cms.entity.Article;
 import com.mmcro.cms.entity.Cat;
 import com.mmcro.cms.entity.Channel;
+import com.mmcro.cms.entity.Comment;
 import com.mmcro.cms.entity.ImageBean;
 import com.mmcro.cms.entity.User;
 import com.mmcro.cms.service.ArticleService;
@@ -61,7 +62,7 @@ public class ArticleController   {
 	 */
 	@RequestMapping("show")
 	public String show(HttpServletRequest request, Integer id) {
-		
+		CmsAssertJson.Assert(id!=0,"文章id不能等于0");
 		Article  article = articleService.findById(id);
 		
 		if(article.getArticleType()==ArticleType.HTML) {
@@ -281,19 +282,36 @@ public class ArticleController   {
 	@ResponseBody
 	//public List<Cat> getCatByChnl(int chnlId){
 	public ResultMsg getCatByChnl(int chnlId){
-		Assert(chnlId>0,"频道id必须大于0");
+		CmsAssertJson.Assert(chnlId>0,"频道id必须大于0");
 		List<Cat> chnlList = catService.getListByChnlId(chnlId);
 		return new ResultMsg(1, "获取数据成功", chnlList);
 	}
 	
+	
+	
 	/**
-	 *  断言处理
-	 * @param expression
-	 * @param msg
-	 */
-	private void Assert(boolean expression,String msg) {
-		if(!expression)
-			throw new CmsException(msg);
+	 *  发布评论
+	 * @param content
+	 * @return
+	 *///article/comment
+	@RequestMapping("comment")
+	@ResponseBody
+	public ResultMsg comment(HttpServletRequest request,Integer articleId, String content) {
+		User loginUser= (User)request.getSession().getAttribute(ConstClass.SESSION_USER_KEY);
+		if(loginUser==null) {
+			return new ResultMsg(2, "用户尚未登陆","");
+		}
+		articleService.comment(loginUser.getId(),articleId,content);
+		return new ResultMsg(1, "发布成功","");
+		
+	}
+	
+	@RequestMapping("getclist")
+	public String getComment(HttpServletRequest request,Integer articleId,
+			@RequestParam(defaultValue="1") Integer page) {
+		PageInfo<Comment> comments = articleService.getCommentByArticleId(articleId, page);
+		request.setAttribute("comments", comments);
+		return "article/clist";
 	}
 	
 
