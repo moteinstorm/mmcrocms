@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.mmcro.cms.comon.ArticleType;
+import com.mmcro.cms.comon.CmsException;
 import com.mmcro.cms.comon.ConstClass;
 import com.mmcro.cms.comon.ResultMsg;
 import com.mmcro.cms.entity.Article;
@@ -278,11 +281,20 @@ public class ArticleController   {
 	@ResponseBody
 	//public List<Cat> getCatByChnl(int chnlId){
 	public ResultMsg getCatByChnl(int chnlId){
-		
+		Assert(chnlId>0,"频道id必须大于0");
 		List<Cat> chnlList = catService.getListByChnlId(chnlId);
 		return new ResultMsg(1, "获取数据成功", chnlList);
 	}
 	
+	/**
+	 *  断言处理
+	 * @param expression
+	 * @param msg
+	 */
+	private void Assert(boolean expression,String msg) {
+		if(!expression)
+			throw new CmsException(msg);
+	}
 	
 
 }

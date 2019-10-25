@@ -43,6 +43,8 @@ public class AdminController {
 			,@RequestParam(defaultValue="0") Integer status
 			) {
 			
+		 //request.getRequestDispatcher("").forward(request, response);
+		
 		  PageInfo<Article> pageInfo= articelService.getAdminArticles(page,status);
 		  request.setAttribute("pageInfo", pageInfo);
 		  request.setAttribute("status", status);
