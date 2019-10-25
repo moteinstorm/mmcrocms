@@ -35,7 +35,9 @@
 				<hr>
 				评论数量：${article.commentCnt }
 			</dd>
-			<dd><div id="commentList"></div></dd>
+			<dd><div id="commentList">
+			    </div>
+			</dd>
 			
 		</dl>
 	
@@ -60,15 +62,16 @@
 		$.ajax({ 
 			type:"post",
 			data:{content:retext,articleId:id},
-			url:"/commnent/post",
+			url:"/article/comment",
 			success:function(msg){
-				if(msg=="success"){ 
+				if(msg.result==1){ 
 					alert("发表成功") 
-					$("#commentList").load("/commnent/getlist?articleId=${article.id}" );
-					history.go(0)
+					$("#commentList").load("/article/getclist?articleId=${article.id}" );
+					//history.go(0)
 					//location.href="getDetail" 
 				}else{
-					alert(msg)
+					
+					alert(msg.errorMsg)
 				}
 			}
 		})
@@ -76,6 +79,8 @@
 			alert("请输入评论内容")
 		}
 	}
+	
+	$("#commentList").load("/article/getclist?articleId=${article.id}" );
 </script>
 
 
