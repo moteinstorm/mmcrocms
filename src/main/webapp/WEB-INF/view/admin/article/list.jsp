@@ -12,24 +12,22 @@
 <title>用户列表</title>
 <script type="text/javascript" src="/resource/js/cms.js"></script>
 <script type="text/javascript">
-$(function(){
-	
-	
-	
-	$(".form-control-sm").change(function(){
+	$(function(){
 		
-		$("#content-wrapper").load("/admin/manArticle?status="+$(this).val())
+		$(".form-control-sm").change(function(){
+			
+			$("#content-wrapper").load("/admin/manArticle?status="+$(this).val())
+		})
+		//下拉框回显
+		$(".form-control-sm").val('${status}')
 	})
-	//下拉框回显
-	$(".form-control-sm").val('${status}')
-})
-
-
-//查看文章详情
-function toDetail(id){
-	$("#content-wrapper").load("/admin/getArticle?id="+id)
 	
-}
+	
+	//查看文章详情
+	function toDetail(id){
+		$("#content-wrapper").load("/admin/getArticle?id="+id)
+		
+	}
 
 </script>
 
