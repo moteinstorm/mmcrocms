@@ -61,4 +61,10 @@ public class SpecialServiceImpl  implements SpecialService{
 		return specialMapper.removeArticle(specId, articleId);
 	}
 
+	@Override
+	public int update(Special special) {
+		// TODO Auto-generated method stub
+		return specialMapper.update(special);
+	}
+
 }

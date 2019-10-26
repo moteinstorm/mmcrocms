@@ -15,6 +15,7 @@
 				<div class="media-body">
 					<h5 class="mt-0 mb-1"><small><a href="javascript:myopen(${a.id })"> ${a.title }</a></small></h5>
 					<br>
+					标签：${a.tags }
 					<br>
 					<h5 class="mt-0 mb-1"><small> ${a.user.username }  &nbsp;  <fmt:formatDate value="${a.created }" pattern="yyyy-MM-dd"/> </small></h5>
 					

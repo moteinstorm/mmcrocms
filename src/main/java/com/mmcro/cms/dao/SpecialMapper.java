@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.mmcro.cms.entity.Special;
 
@@ -37,6 +38,15 @@ public interface SpecialMapper {
 	@Delete("DELETE FROM cms_special_article WHERE sid=#{sid} AND aid=#{aid}")
 	int removeArticle(@Param("sid") Integer specId, 
 			@Param("aid")  Integer articleId);
+
+	/**
+	 * 修改专题
+	 * @param special
+	 * @return
+	 */
+	@Update("UPDATE cms_special SET title=#{title},abstract=#{digest} "
+			+ " WHERE id=#{id} ")
+	int update(Special special);
 	
 
 }

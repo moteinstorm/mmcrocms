@@ -42,4 +42,11 @@ public interface SpecialService {
 	 */
 	int removeArticle(Integer specId, Integer articleId);
 
+	/**
+	 * 修改专题
+	 * @param special
+	 * @return
+	 */
+	int update(Special special);
+
 }

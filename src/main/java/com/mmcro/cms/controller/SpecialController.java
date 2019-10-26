@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mmcro.cms.comon.ResultMsg;
 import com.mmcro.cms.entity.Special;
 import com.mmcro.cms.service.SpecialService;
+import com.mmcro.utils.StringUtils;
 
 /**
  * 
@@ -45,6 +46,9 @@ public class SpecialController {
 	@RequestMapping(value="add",method=RequestMethod.POST)
 	@ResponseBody
 	public  ResultMsg add(HttpServletRequest request,Special special) {
+		if(StringUtils.isEmpty(special.getDigest())) {
+			return new ResultMsg(3, "摘要不能为空", "");
+		}
 		int result = specialService.add(special);
 		if(result>0) {
 			return new ResultMsg(1, "添加成功", "");
@@ -61,21 +65,23 @@ public class SpecialController {
 	
 	
 	
-	/*@RequestMapping(value="update",method=RequestMethod.GET)
-	public String update(HttpServletRequest request,) {
-		return "admin/special/add";
+	@RequestMapping(value="update",method=RequestMethod.GET)
+	public String update(HttpServletRequest request,Integer id) {
+		Special special = specialService.findById(id);
+		request.setAttribute("special", special);
+		return "admin/special/update";
 	}
 	
-	@RequestMapping(value="add",method=RequestMethod.POST)
+	@RequestMapping(value="update",method=RequestMethod.POST)
 	@ResponseBody
-	public  ResultMsg add(HttpServletRequest request,Special special) {
-		int result = specialService.add(special);
+	public  ResultMsg update(HttpServletRequest request,Special special) {
+		int result = specialService.update(special);
 		if(result>0) {
-			return new ResultMsg(1, "添加成功", "");
+			return new ResultMsg(1, "修改成功", "");
 		}else {
-			return new ResultMsg(2, "添加失败，请与管理员联系", "");
+			return new ResultMsg(2, "修改失败，请与管理员联系", "");
 		}
-	}*/
+	}
 	
 	
 	

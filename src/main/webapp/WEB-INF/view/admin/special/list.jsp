@@ -27,6 +27,12 @@ function addArticle(id){
 	$("#content-wrapper").load("/special/detail?id="+id)
 }
 
+function modify(id){
+	$("#content-wrapper").load("/special/update?id="+id)
+}
+
+
+
 </script>
 
 
