@@ -89,16 +89,6 @@ public class SpecialController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//specId:${special.id},articleId:$("#articleId")
 	@RequestMapping(value="addArticle",method=RequestMethod.POST)
 	@ResponseBody

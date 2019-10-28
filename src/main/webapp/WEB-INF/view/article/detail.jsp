@@ -52,35 +52,42 @@
 		$("#commentList").load("/commnent/getlist?articleId=${article.id}" );
 	}); */
 	
+	
+	/**
+	* 发表评论
+	*/
 	function commnent(){
-		
+		//获取评论内容
 		var retext=$("[name='content']").val();
-		//alert(retext)
+		//获取评论的id
 		var id=${article.id}
-		//alert(id)
+		//评论内容不为空才可以发表
 		if(retext!=""){
-		$.ajax({ 
-			type:"post",
-			data:{content:retext,articleId:id},
-			url:"/article/comment",
-			success:function(msg){
-				if(msg.result==1){ 
-					alert("发表成功") 
-					$("#commentList").load("/article/getclist?articleId=${article.id}" );
-					//history.go(0)
-					//location.href="getDetail" 
-				}else{
-					
-					alert(msg.errorMsg)
+			$.ajax({ 
+				type:"post",//请求的方式
+				data:{content:retext,articleId:id},//请求的参数
+				url:"/article/comment",//请求地址
+				success:function(msg){  //成功后回调
+					if(msg.result==1){ 
+						alert("发表成功") 
+						//刷新评论列表
+						$("#commentList").load("/article/getclist?articleId=${article.id}" );
+					}else{
+						//提示失败的原因
+						alert(msg.errorMsg)
+					}
 				}
-			}
-		})
+			})
 		}else{
 			alert("请输入评论内容")
 		}
 	}
 	
 	$("#commentList").load("/article/getclist?articleId=${article.id}" );
+	//增加点击次数
+	$.post("/article/addHits",{id:${article.id}},function(data){
+		
+	},"json");
 </script>
 
 

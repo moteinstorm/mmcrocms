@@ -57,27 +57,30 @@
 			<label for="title">文章标题图片</label> <input type="file"
 				class="form-control" id="file" name="file">
 		</div>
+		
 		<div class="form-group row ">
-		  	<label for="channel">文章栏目</label> 
-			
+		  	<label for="channel">文章栏目</label>
 			<select class="custom-select custom-select-sm mb-3" id="channel"  name="channelId">
 				<option value="0">请选择</option>  
 				<c:forEach items="${channels}" var="channel">
 					<option value="${channel.id}" ${channel.id==article.channelId?"selected":""} >   ${channel.name}</option> 
 				</c:forEach>
-				
 			</select>
+		</div>
+		
+		<div class="form-group row ">
 			<label for="category">文章分类</label> 
 			<select class="custom-select custom-select-sm mb-3" id="category" name="categoryId">
 			</select>
-			
+		</div>
+		<div class="form-group row ">	
 			<label for="category">文章标签</label> 
 				<input name="tags" size="50" value="${article.tags}"/>
-				
-		</div>
+		</div>		
+		
 		
 		<div class="form-group row" >
-		<button type="button" class="btn btn-success" onclick="publish()">修改</button>
+			<button type="button" class="btn btn-success" onclick="publish()">修改</button>
 		
 		</div>
 	</form>
@@ -142,10 +145,18 @@ function publish(){
 }
 		*/
 
-
+/**
+ *  预加载函数
+ */
 $(function(){
-	alert('test');
+	//根据频道获取分类
 	changeChannel();
+	
+	//为栏目添加绑定事件   触发联动
+	 $("#channel").change(function(){
+		 changeChannel();
+	}) // end of change
+})//end $(function
 
 
 
@@ -188,12 +199,13 @@ $(function(){
  	
 	
 	
-	//为栏目添加绑定事件   触发联动
-	 $("#channel").change(function(){
-		 changeChannel();
-	}) 
-})
+	
+//})
 
+	/**
+	*  函数用于根据频道内容获取分类列表内容
+	*
+	*/
 	function changeChannel(){
 			
 			 //先清空原有的栏目下的分类
@@ -201,18 +213,24 @@ $(function(){
 			var cid =$("#channel").val();//获取当前的下拉框的id
 			//根据ID 获取栏目下的分类
 		 	$.get("/article/listCatByChnl",{chnlId:cid},function(resultData){
-			if(resultData.result==1){
-				var list = resultData.data;
+			if(resultData.result==1){ //后端处理正确
+				var list = resultData.data; //得到分类列表的数据
+				//遍历分类列表数据
 				 for(var i in list){
+					 //该分类就是文章的分类
 					if(list[i].id==${article.categoryId}){
-				  		$("#category").append("<option value='"+list[i].id+"' selected >"+list[i].name+"</option>")
+						// 该项处于选中状态
+				  		$("#category").append("<option value='"+list[i].id 
+				  				      +"' selected >"+list[i].name+"</option>")
 					}else{
-						$("#category").append("<option value='"+list[i].id+"'>"+list[i].name+"</option>")
-					}
-				 }
-			}
-		 })
-}
+						//
+						$("#category").append("<option value='"+list[i].id+"'>"
+								        +list[i].name+"</option>")
+					}//end if
+				 }//end for
+			}//end if 
+		 })// end $.get(
+}//end function
 
 
 

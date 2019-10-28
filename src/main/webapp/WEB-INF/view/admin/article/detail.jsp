@@ -12,8 +12,13 @@
 <link rel="stylesheet"
 	href="/resource/css/bootstrap.min.css">
 	<script type="text/javascript">
+	/**
+	*  审核文章 
+	*  paramter： status 1 审核通过  2 审核不通过
+	* return 
+	*/
 	function pass(status){
-		
+		//提交审核请求
 		$.post("/admin/checkArticle",{status:status,articleId:'${article.id}'},function(obj){
 			if(obj.result==1){
 				alert("处理成功")
@@ -21,21 +26,25 @@
 			}else{
 				alert(obj.errorMsg);
 			}
-		})
+		})//end post
 		
-	}
+	}//end function
 	
-	
-function hot(status){
-		
+	/**
+	*  设置文章是否热门 
+	*  paramter： status 0 非热门   1 热门
+	* return 
+	*/
+	function hot(status){
+		//设置热门请求
 		$.post("/admin/sethot",{status:status,articleId:'${article.id}'},function(obj){
 			if(obj){
 				alert("操作成功!")
 				$("#content-wrapper").load("/admin/manArticle")
 			}
-		})
+		})//end post
 		
-	}
+	}//end function
 	
 	function goBack(){
 		$("#content-wrapper").load("/admin/manArticle")

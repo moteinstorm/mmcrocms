@@ -23,6 +23,7 @@
 	<!--2、 指定外部属性文件的位置 -->
 	<context:property-placeholder
 		location="classpath:db.properties" />
+	
 
 	<!-- 3.使用druid数据源 连接池 -->
 	<bean id="dataSource" 
@@ -77,7 +78,7 @@
 	<aop:config>
 		<!-- 配置切点表达式 -->
 		<!-- todo -->
-		<aop:pointcut
+		<aop:pointcut 
 			expression="execution(* com.mmcro.cms.service.impl.*.*(..))" id="pointcut" />
 		<!-- 关联事务 -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut" />

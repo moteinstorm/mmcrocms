@@ -37,20 +37,27 @@ public class AdminController {
 		
 	}
 	
+	/**
+	 *  管理员审核文章列表
+	 * @param request
+	 * @param page  页码
+	 * @param status  查询数据的状态
+	 * @return
+	 */
 	@RequestMapping("manArticle")
 	public String adminArticle(HttpServletRequest request,
 			@RequestParam(defaultValue="1") Integer page
 			,@RequestParam(defaultValue="0") Integer status
 			) {
-			
-		 //request.getRequestDispatcher("").forward(request, response);
 		
+		// 根据状态和页码获取文章列表数据
 		  PageInfo<Article> pageInfo= articelService.getAdminArticles(page,status);
 		  request.setAttribute("pageInfo", pageInfo);
 		  request.setAttribute("status", status);
-		  //page(HttpServletRequest request, String url, Integer pageSize, List<?> list, Long listCount, Integer page) {
-		  // PageUtils.page(request,"/admin/manArticle?status="+status,  10, pageInfo.getList(),(long)pageInfo.getTotal() ,  pageInfo.getPageNum());
-		  String pageStr = PageUtils.pageLoad(pageInfo.getPageNum(),pageInfo.getPages() , "/admin/manArticle?status="+status, 10);
+		  
+		  //生成分页html代码
+		  String pageStr = PageUtils.pageLoad(pageInfo.getPageNum(),pageInfo.getPages() , 
+				  "/admin/manArticle?status="+status, 10);
 		  request.setAttribute("page", pageStr);
 		 return "admin/article/list";
 		

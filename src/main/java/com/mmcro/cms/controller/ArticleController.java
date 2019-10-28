@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List; 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +23,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.mmcro.cms.comon.ArticleType;
 import com.mmcro.cms.comon.CmsAssertJson;
-import com.mmcro.cms.comon.CmsExceptionJson;
+import com.mmcro.cms.comon.CmsAssertView;
 import com.mmcro.cms.comon.ConstClass;
 import com.mmcro.cms.comon.ResultMsg;
 import com.mmcro.cms.entity.Article;
@@ -54,6 +55,9 @@ public class ArticleController   {
 	@Autowired
 	CatService catService;
 	
+	@Value("${upload.path}")
+	String uploadPath;
+	
 	
 	/**
 	 *  显示一篇具体的文章
@@ -62,7 +66,7 @@ public class ArticleController   {
 	 */
 	@RequestMapping("show")
 	public String show(HttpServletRequest request, Integer id) {
-		CmsAssertJson.Assert(id!=0,"文章id不能等于0");
+		CmsAssertView.Assert(id!=0,"文章id不能等于0");
 		Article  article = articleService.findById(id);
 		
 		if(article.getArticleType()==ArticleType.HTML) {
@@ -142,24 +146,25 @@ public class ArticleController   {
 	
 	
 	/**
-	 * 
+	 * 处理发布文章请求
 	 * @param request
+	 * @param article
+	 * @param file
 	 * @return
-	 * @throws IOException 
-	 * @throws IllegalStateException 
+	 * @throws IllegalStateException
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "add",method=RequestMethod.POST)
-	public String add(HttpServletRequest request,Article article, MultipartFile file) throws IllegalStateException, IOException {
-		
+	public boolean add(HttpServletRequest request,Article article, 
+			MultipartFile file) throws IllegalStateException, IOException {
+		//处理标题图片
 		processFile(file,article);
 		
 		//获取作者
 		User loginUser = (User)request.getSession().getAttribute(ConstClass.SESSION_USER_KEY);
 		article.setUserId(loginUser.getId());
-		
-		articleService.add(article);
-		
-		return "article/publish";
+		//发布文章
+		return articleService.add(article)>0;
 		
 	}
 	
@@ -172,10 +177,11 @@ public class ArticleController   {
 	 */
 	@RequestMapping(value = "update",method=RequestMethod.GET)
 	public String update(HttpServletRequest request,Integer id) {
-		
+		//获取频道
 		List<Channel> allChnls = chanService.getAllChnls();
+		//获取文章
 		Article article = articleService.findById(id);
-		
+		//
 		request.setAttribute("article", article);
 		request.setAttribute("content1", article.getContent());
 		request.setAttribute("channels", allChnls);
@@ -190,29 +196,34 @@ public class ArticleController   {
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 */
-	private void processFile(MultipartFile file,Article article) throws IllegalStateException, IOException {
+	private void processFile(MultipartFile file,Article article) 
+			throws IllegalStateException, IOException {
 
-		// 原来的文件名称
-		System.out.println("file.isEmpty() :" + file.isEmpty()  );
-		System.out.println("file.name :" + file.getOriginalFilename());
-		
-		if(file.isEmpty()||"".equals(file.getOriginalFilename()) || file.getOriginalFilename().lastIndexOf('.')<0 ) {
+		// 判断原文件的合法性
+		if(file.isEmpty()||"".equals(file.getOriginalFilename()) 
+				|| file.getOriginalFilename().lastIndexOf('.')<0 ) {
 			article.setPicture("");
 			return;
 		}
-			
+		//获取原文件名称	
 		String originName = file.getOriginalFilename();
+		//获取扩展名
 		String suffixName = originName.substring(originName.lastIndexOf('.'));
+		//根据日期获取存放文件的相对路径名
 		SimpleDateFormat sdf=  new SimpleDateFormat("yyyyMMdd");
-		String path = "d:/pic/" + sdf.format(new Date());
+		//计算文件存放的绝对路径
+		String path = uploadPath + "/" + sdf.format(new Date());
 		File pathFile = new File(path);
+		//如果路径不存在，则创建文件夹
 		if(!pathFile.exists()) {
 			pathFile.mkdir();
 		}
+		//计算文件存放位置以及文件名称
 		String destFileName = 		path + "/" +  UUID.randomUUID().toString() + suffixName;
 		File distFile = new File( destFileName);
 		file.transferTo(distFile);//文件另存到这个目录下边
-		article.setPicture(destFileName.substring(7));
+		//文章中保存相对路径
+		article.setPicture(destFileName.substring(uploadPath.length()+1));
 		
 	}
 	
@@ -252,20 +263,39 @@ public class ArticleController   {
 	/**
 	 * 
 	 * @param request
+	 * @param article
+	 * @param file
 	 * @return
-	 * @throws IOException 
-	 * @throws IllegalStateException 
+	 * @throws IllegalStateException
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "update",method=RequestMethod.POST)
 	@ResponseBody
-	public boolean update(HttpServletRequest request,Article article, MultipartFile file) throws IllegalStateException, IOException {
-		
-		processFile(file,article);
+	public boolean update(HttpServletRequest request,
+			Article article, MultipartFile file) 
+					throws IllegalStateException, IOException {
 		
 		//获取作者
 		User loginUser = (User)request.getSession().getAttribute(ConstClass.SESSION_USER_KEY);
-		article.setUserId(loginUser.getId());
+		//尚未登录
+		if(loginUser == null) {
+			return false;
+		}
 		
+		//获取原来的文章
+		Article srcArticle =  articleService.findById(article.getId());
+		//原来文章存在
+		if(srcArticle == null) {
+			return false;
+		}
+		
+		//原文的作者不是当前的登录用户
+		if(srcArticle.getUserId()!= loginUser.getId()) {
+			return false;
+		}
+		//处理上传文件		
+		processFile(file,article);
+		//调用服务层保存修改后的文章数据
 		int result = articleService.update(article);
 		
 		return result > 0;
@@ -280,7 +310,6 @@ public class ArticleController   {
 	 */
 	@RequestMapping(value="listCatByChnl",method=RequestMethod.GET)
 	@ResponseBody
-	//public List<Cat> getCatByChnl(int chnlId){
 	public ResultMsg getCatByChnl(int chnlId){
 		CmsAssertJson.Assert(chnlId>0,"频道id必须大于0");
 		List<Cat> chnlList = catService.getListByChnlId(chnlId);
@@ -292,26 +321,48 @@ public class ArticleController   {
 	/**
 	 *  发布评论
 	 * @param content
-	 * @return
+	 * @returnr
 	 *///article/comment
 	@RequestMapping("comment")
 	@ResponseBody
 	public ResultMsg comment(HttpServletRequest request,Integer articleId, String content) {
+		//获取当前登录用户信息
 		User loginUser= (User)request.getSession().getAttribute(ConstClass.SESSION_USER_KEY);
+		//没有得到用户信息，则没有登录
 		if(loginUser==null) {
-			return new ResultMsg(2, "用户尚未登陆","");
+			return new ResultMsg(2, "用户尚未登录","");
 		}
 		articleService.comment(loginUser.getId(),articleId,content);
 		return new ResultMsg(1, "发布成功","");
 		
 	}
 	
+	/**
+	 * 获取某一篇文章的评论
+	 * @param request
+	 * @param articleId 文章id
+	 * @param page 页码
+	 * @return
+	 */
 	@RequestMapping("getclist")
 	public String getComment(HttpServletRequest request,Integer articleId,
 			@RequestParam(defaultValue="1") Integer page) {
 		PageInfo<Comment> comments = articleService.getCommentByArticleId(articleId, page);
 		request.setAttribute("comments", comments);
 		return "article/clist";
+	}
+	
+	/**
+	 * 增加文章点击次数
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "addHits",method=RequestMethod.POST)
+	@ResponseBody
+	public boolean addHits(Integer id) {
+		return articleService.addHits(id)>0;
+		
+		
 	}
 	
 

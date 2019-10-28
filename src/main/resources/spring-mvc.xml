@@ -7,6 +7,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	<!-- 扫描器 -->
+	
+	<context:property-placeholder
+		location="classpath:cms.properties" />
+		
 	<!--  todo -->
 	<context:component-scan
 		base-package=" com.mmcro.cms.controller"></context:component-scan>
@@ -30,6 +34,7 @@
 			<mvc:exclude-mapping path="/article/show"/>
 			<mvc:exclude-mapping path="/article/comment"/>
 			<mvc:exclude-mapping path="/article/getclist"/>
+			<mvc:exclude-mapping path="/article/addHits"/>
 			<mvc:exclude-mapping path="/pic/**"/>
 			<mvc:exclude-mapping path="/"/>
 			<mvc:exclude-mapping path="/index"/>

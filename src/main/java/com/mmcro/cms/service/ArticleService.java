@@ -1,5 +1,6 @@
 package com.mmcro.cms.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
@@ -95,8 +96,23 @@ public interface ArticleService {
 	 * @param content
 	 */
 	void comment(Integer id, Integer articleId, String content);
+	/**
+	 * 
+	 * @param id
+	 * @param articleId
+	 * @param content
+	 * @param date  发布时间
+	 */
+	void comment(Integer id, Integer articleId, String content,Date date);
 	
 	PageInfo<Comment> getCommentByArticleId(Integer articleId,Integer page);
+
+	/**
+	 * 增加文章点击次数
+	 * @param id 文章id
+	 * @return
+	 */
+	int addHits(Integer id);
 	
 
 }

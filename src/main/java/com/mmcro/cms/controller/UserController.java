@@ -140,7 +140,20 @@ public class UserController {
 	 */
 	@RequestMapping("delArticle")
 	@ResponseBody
-	public boolean delArticle(Integer id) {
+	public boolean delArticle(HttpServletRequest request,Integer id) {
+		
+		//判断文章是否存在
+		Article article = articleService.findById(id);
+		if(article==null)
+			return false;
+		
+		//判断文章是否属于自己的
+		User loginUser =(User) request.getSession().getAttribute(
+				ConstClass.SESSION_USER_KEY);
+		if(loginUser.getId()!= article.getUserId()) {
+			return false;
+		}
+		//删除文章
 		return articleService.remove(id)>0;
 	}
 	
@@ -152,10 +165,14 @@ public class UserController {
 	@RequestMapping("myarticlelist")
 	public String myarticles(HttpServletRequest request,
 			@RequestParam(defaultValue="1") Integer page) {
-		
+		// 获取当前用户信息
 		User loginUser =(User) request.getSession().getAttribute(ConstClass.SESSION_USER_KEY);
+		//获取一页文章
 		PageInfo<Article>  pageArticles = articleService.listArticleByUserId(loginUser.getId(),page);
-		PageUtils.page(request, "/user/myarticlelist", 10, pageArticles.getList(), (long)pageArticles.getSize(), pageArticles.getPageNum());
+		//利用工具类生成页码信息
+		PageUtils.page(request, "/user/myarticlelist", 10, 
+				pageArticles.getList(), (long)pageArticles.getSize(),
+				pageArticles.getPageNum());
 		request.setAttribute("pageArticles", pageArticles);
 		return "/my/list";
 	}

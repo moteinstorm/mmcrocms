@@ -12,21 +12,21 @@
 <title>用户列表</title>
 <script type="text/javascript" src="/resource/js/cms.js"></script>
 <script type="text/javascript">
+	
 	$(function(){
-		
+		// 下拉框数据改变后触发查询
 		$(".form-control-sm").change(function(){
-			
+			//根据下拉框的数据查询数据
 			$("#content-wrapper").load("/admin/manArticle?status="+$(this).val())
 		})
 		//下拉框回显
-		$(".form-control-sm").val('${status}')
+		$("#articleStatus").val('${status}')
 	})
 	
 	
 	//查看文章详情
 	function toDetail(id){
 		$("#content-wrapper").load("/admin/getArticle?id="+id)
-		
 	}
 
 </script>
@@ -37,8 +37,9 @@
 <div class="container-fluid">
 
 		<div>
-		     文章状态
-			  <select class="form-control-sm" >
+		
+			  <label>文章状态</label>
+			  <select class="form-control-sm" id="articleStatus" >
 			    <option value="-1">全部</option>
 			    <option value="0">待审核</option>
 			    <option value="1">已审核</option>
@@ -75,7 +76,7 @@
 			</c:forEach>
 
 		</table>
-		<div>
+		
 			${page}
 		</div>
 	</div>

@@ -32,7 +32,7 @@ String htmlData = request.getParameter("content1") != null ? request.getParamete
 			prettyPrint();
 		});
 		function query(){
-		alert(editor1.html())
+		  //alert(editor1.html())
 			//alert( $("[name='content1']").attr("src"))
 		} 
 	</script>
@@ -157,6 +157,7 @@ $(function(){
 		}
 	 })
 	})
+	
 })
 
 </script>

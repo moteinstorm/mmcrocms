@@ -77,8 +77,10 @@ public interface ArticleMapper {
 	 * @param article
 	 * @return
 	 */
-	@Update("UPDATE cms_article set title=#{title},content=#{content},picture=#{picture},channel_id=#{channelId},"
-			+ "category_id=#{categoryId},updated=now() WHERE id=#{id}")
+	@Update("UPDATE cms_article set title=#{title},content=#{content},"
+			+ " picture=#{picture},channel_id=#{channelId},"
+			+ "category_id=#{categoryId},updated=now() "
+			+ " WHERE id=#{id}")
 	int update(Article article);
 
 	/**
@@ -93,8 +95,10 @@ public interface ArticleMapper {
 	 * @param status
 	 * @return
 	 */
-	@Update("UPDATE cms_article set status=#{status},updated=now() WHERE id=#{articleId}")
-	int updateStatus(@Param("articleId") Integer articleId, @Param("status") int status);
+	@Update("UPDATE cms_article set status=#{status},updated=now() "
+			+ " WHERE id=#{articleId}")
+	int updateStatus(@Param("articleId") Integer articleId, 
+			@Param("status") int status);
 
 	/**
 	 * 修改文章热门状态
@@ -127,7 +131,7 @@ public interface ArticleMapper {
 	 * @param articleId 
 	 * @param tagId  
 	 */
-	@Insert("INSERT INTO cms_article_tag_middle values(#{articleId},#{tagId}) ")
+	@Insert("INSERT INTO cms_article_tag_middle1 values(#{articleId},#{tagId}) ")
 	void addArticleTag(@Param("articleId") Integer articleId, @Param("tagId") Integer tagId);
 
 	/**
@@ -162,6 +166,13 @@ public interface ArticleMapper {
 			+ " sa JOIN cms_article  a ON sa.aid=a.id "
 			+ " WHERE sa.sid=#{value}")
 	Integer getArticleNum(Integer id);
+
+	@Insert("INSERT INTO cms_comment(userId,articleId,content,created) "
+			+ "VALUES(#{userId},#{articleId},#{content},#{created} )")
+	void addComment1(Comment comment);
+	
+	@Update("UPDATE cms_article SET hits = hits + 1 WHERE id =  #{id} ")
+	int increaseHits(Integer id);
 	
 	
 	

@@ -18,12 +18,9 @@ public class Article implements Serializable {
 	//标题
 	private String title;
 	
-	public String getTags() {
-		return tags;
-	}
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
+	private User user;
+	
+	
 	//文章内容
 	private String content;
 	//图片
@@ -99,7 +96,14 @@ public class Article implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	private User user;
+	
+	
+	public String getTags() {
+		return tags;
+	}
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
 	
 	
 	
