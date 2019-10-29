@@ -1,11 +1,16 @@
 package com.mmcro.cms.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.pagehelper.PageInfo;
 import com.mmcro.cms.comon.ArticleType;
 import com.mmcro.cms.entity.Article;
+import com.mmcro.utils.FileUtils;
 
 public class TestArticle  extends BaseTest{
 	
@@ -49,6 +54,40 @@ public class TestArticle  extends BaseTest{
 		arService.add(article2);
 		
 	} 
+	
+	@Test
+	public void testImportTag() throws IOException {
+		
+		List<String> list = FileUtils.readFile("d:\\aaa\\tags.txt");
+		for (String tag : list) {
+			arService.addTag(tag);
+		}
+		
+	}
+	
+	@Test
+	public void testImport() throws IOException {
+		File file = new File("D:\\aaa");
+		// 获取子目录
+		String[] list = file.list();
+		for (int i = 0; i < list.length; i++) {
+			if(list[i].endsWith(".txt")){
+				//File txtFile = new File("D:\\aaa\\" + list[i]);
+				String content = FileUtils.readFileByLine("D:\\aaa\\" + list[i]);
+				Article article = new Article();
+				article.setContent(content);
+				article.setTitle(list[i].substring(0,list[i].lastIndexOf('.')));
+				article.setChannelId(4);
+				article.setCategoryId(20);
+				arService.add(article);
+				
+			}
+			
+			
+		}
+		
+		
+	}
 	
 
 }

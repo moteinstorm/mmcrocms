@@ -114,5 +114,7 @@ public interface ArticleService {
 	 */
 	int addHits(Integer id);
 	
+	int addTag(String tag);
+	
 
 }

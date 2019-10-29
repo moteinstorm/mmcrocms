@@ -14,7 +14,6 @@ import com.mmcro.cms.entity.Article;
 import com.mmcro.cms.entity.Comment;
 import com.mmcro.cms.entity.Tag;
 import com.mmcro.cms.service.ArticleService;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 @Service
 @Transactional
@@ -241,6 +240,14 @@ public class ArticleServiceImpl implements ArticleService {
 	public int addHits(Integer id) {
 		// TODO Auto-generated method stub
 		return articleMapper.increaseHits(id);
+	}
+
+	@Override
+	public int addTag(String tag) {
+		// TODO Auto-generated method stub
+		Tag tagBean = new Tag(tag);
+		return articleMapper.addTag(tagBean);
+		
 	}
 	
 
